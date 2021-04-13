@@ -9,11 +9,6 @@ namespace Birth_Clinic.Models
 {
     public class Secretary : Clinician
     {
-      
-        public override void SetAvailability(bool state)
-        {
-            Availability = state;
-        }
-
+        
     }
 }

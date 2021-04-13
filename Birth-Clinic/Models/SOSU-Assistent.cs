@@ -9,9 +9,5 @@ namespace Birth_Clinic.Models
 {
     public class SOSU_Assistent : Clinician
     {
-        public override void SetAvailability(bool state)
-        {
-            Availability = state;
-        }
     }
 }

@@ -10,10 +10,6 @@ namespace Birth_Clinic.Models
     public class Doctor : Clinician
     {
         
-        public override void SetAvailability(bool state)
-        {
-            Availability = state;
-        }
-
+      
     }
 }
