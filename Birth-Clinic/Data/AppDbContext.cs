@@ -16,15 +16,21 @@ namespace Birth_Clinic.Data
             ob.UseSqlServer(
                 @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BirthClinic;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
-
+        public DbSet<ClinicRoom> Rooms { get; set; }
+        public DbSet<Clinician> Clinicians { get; set; }
         protected override void OnModelCreating(ModelBuilder ob)
         {
             ob.Entity<Clinician>().HasKey(c => new { c.FirstName, c.LastName });
             ob.Entity<ClinicRoom>().HasKey(bc => bc.RoomId);
             ob.Entity<BirthClinic>().HasKey(bc => bc.Name);
-            ob.Entity<ClinicRoom>().ToTable("RestRoom");
-            ob.Entity<ClinicRoom>().ToTable("MaternityRoom");
-            ob.Entity<ClinicRoom>().ToTable("BirthRoom");
+            ob.Entity<BirthRoom>();
+            ob.Entity<RestRoom>();
+            ob.Entity<MaternityRoom>();
+            ob.Entity<MidWife>();
+            ob.Entity<Doctor>();
+            ob.Entity<Nurse>();
+            ob.Entity<Secretary>();
+            ob.Entity<SOSU_Assistent>();
         }
     }
 }
