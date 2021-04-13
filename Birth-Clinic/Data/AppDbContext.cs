@@ -20,8 +20,11 @@ namespace Birth_Clinic.Data
         protected override void OnModelCreating(ModelBuilder ob)
         {
             ob.Entity<Clinician>().HasKey(c => new { c.FirstName, c.LastName });
+            ob.Entity<ClinicRoom>().HasKey(bc => bc.RoomId);
             ob.Entity<BirthClinic>().HasKey(bc => bc.Name);
-
+            ob.Entity<ClinicRoom>().ToTable("RestRoom");
+            ob.Entity<ClinicRoom>().ToTable("MaternityRoom");
+            ob.Entity<ClinicRoom>().ToTable("BirthRoom");
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Birth_Clinic.Models
     public class BirthClinic
     {
         public string Name { get; set; }
-        public List<IClinicRoom> ClinicRooms { get; set; }
+        public List<Clinician> Clinicians { get; set; }
+        public List<ClinicRoom> ClinicRooms { get; set; }
     }
 }

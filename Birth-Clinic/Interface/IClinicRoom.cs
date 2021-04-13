@@ -2,7 +2,7 @@
 
 namespace Birth_Clinic.Interface
 {
-    public abstract class IClinicRoom
+    public abstract class ClinicRoom
     {
         public string RoomName { get; set; }
         public int RoomId { get; set; }
