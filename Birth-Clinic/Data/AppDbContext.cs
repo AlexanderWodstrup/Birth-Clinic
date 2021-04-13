@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Birth_Clinic.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Birth_Clinic.Data
@@ -17,7 +18,8 @@ namespace Birth_Clinic.Data
 
         protected override void OnModelCreating(ModelBuilder ob)
         {
-            
+            ob.Entity<BirthClinic>().HasKey(bc => bc.Name);
+
         }
     }
 }
