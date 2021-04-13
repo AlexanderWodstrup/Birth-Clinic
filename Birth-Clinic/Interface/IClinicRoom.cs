@@ -7,7 +7,11 @@ namespace Birth_Clinic.Interface
         public string RoomName { get; set; }
         public int RoomId { get; set; }
         public bool Availability { get; set; }
-        public abstract void SetAvailability(bool state);
+
+        public void SetAvailability(bool state)
+        {
+            Availability = state;
+        }
         public BirthClinic BirthClinic { get; set; }
     }
 }

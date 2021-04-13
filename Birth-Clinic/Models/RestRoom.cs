@@ -9,9 +9,6 @@ namespace Birth_Clinic.Models
 {
     public class RestRoom : IClinicRoom
     {
-        public override void SetAvailability(bool state)
-        {
-            Availability = state;
-        }
+        
     }
 }
