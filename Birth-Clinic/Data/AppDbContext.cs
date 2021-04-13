@@ -14,5 +14,10 @@ namespace Birth_Clinic.Data
             ob.UseSqlServer(
                 @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BirthClinic;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
+
+        protected override void OnModelCreating(ModelBuilder ob)
+        {
+            
+        }
     }
 }
