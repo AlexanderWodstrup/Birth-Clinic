@@ -29,7 +29,7 @@ namespace Birth_Clinic.Repository
 
         public void Add(TEntity entity)
         {
-            Console.WriteLine("Entity added");
+            //Console.WriteLine("Entity added");
             _context.Set<TEntity>().Add(entity);
         }
 

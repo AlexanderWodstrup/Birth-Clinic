@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Birth_Clinic.Data;
 using Birth_Clinic.Interface;
 using Birth_Clinic.Models;
+using Birth_Clinic.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -16,6 +17,7 @@ namespace Birth_Clinic.DummyData
     {
         public void AddRooms(AppDbContext context)
         {
+            IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
             //Seeder 15 birthrooms i databasen
             for (int i = 1; i < 16; i++)
             {
@@ -23,7 +25,7 @@ namespace Birth_Clinic.DummyData
                 {
                     RoomName = "Birth Room - " + i,
                 };
-                context.Rooms.Add(BirthRoom);
+                unitOfWork.Rooms.Add(BirthRoom);
             }
 
             //Seeder 22 maternityrooms i databasen
@@ -33,7 +35,7 @@ namespace Birth_Clinic.DummyData
                 {
                     RoomName = "Maternity Room - " + i,
                 };
-                context.Rooms.Add(MaternityRoom);
+                unitOfWork.Rooms.Add(MaternityRoom);
             }
 
             //Seeder 5 restrooms i databasen
@@ -43,10 +45,10 @@ namespace Birth_Clinic.DummyData
                 {
                     RoomName = "Rest Room - " + i,
                 };
-                context.Rooms.Add(RestRoom);
+                unitOfWork.Rooms.Add(RestRoom);
             }
 
-            context.SaveChanges();
+            unitOfWork.Complete();
             Console.WriteLine("Rooms seeded");
         }
 
