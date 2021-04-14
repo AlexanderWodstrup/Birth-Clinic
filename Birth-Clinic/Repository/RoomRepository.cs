@@ -27,5 +27,10 @@ namespace Birth_Clinic.Repository
         {
             return _context.Rooms.Where(r => r is RestRoom).ToList();
         }
+
+        public IEnumerable<ClinicRoom> GetRoomsWithSchedule()
+        {
+            return _context.Rooms.Include(r => r.Schedules).ToList();
+        }
     }
 }

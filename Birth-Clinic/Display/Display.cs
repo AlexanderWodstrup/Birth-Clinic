@@ -79,7 +79,32 @@ namespace Birth_Clinic.Display
                 }
                 
             }
-            Console.WriteLine("All clinicians work times listed");
+            Console.WriteLine();
+            Console.WriteLine("All clinicians who's at work the five days and their schedules");
+        }
+
+        public void ShowRoomsAvailability(AppDbContext context)
+        {
+            IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
+            
+            var Rooms = unitOfWork.Rooms.GetRoomsWithSchedule();
+            foreach (var room in Rooms)
+            {
+                var count = 0;
+                foreach (var s in room.Schedules)
+                {
+                    if (DateTime.Now < s.From && count == 0)
+                    {
+                        count++;
+                        Console.WriteLine("Room: " + room.RoomName + " is available from " + DateTime.Now + " to " + s.To);
+                    }
+                    if (DateTime.Now < s.From && count == 1)
+                    {
+                        count++;
+                        Console.WriteLine("Room: " + room.RoomName + " is available from " + DateTime.Now + " to " + s.To);
+                    }
+                }
+            }
         }
     }
 }

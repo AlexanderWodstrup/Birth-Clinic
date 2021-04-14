@@ -12,5 +12,6 @@ namespace Birth_Clinic.Repository
         public IEnumerable<ClinicRoom> GetBirthRooms();
         public IEnumerable<ClinicRoom> GetMatenityRooms();
         public IEnumerable<ClinicRoom> GetRestRooms();
+        public IEnumerable<ClinicRoom> GetRoomsWithSchedule();
     }
 }

@@ -36,6 +36,7 @@ namespace Birth_Clinic
                             break;
                         case "CW" or "cw":
                             display.ShowClinicianAvailability(context);
+                            display.ShowRoomsAvailability(context);
                             break;
                         case "Check" or "check":
                             Console.Clear();
