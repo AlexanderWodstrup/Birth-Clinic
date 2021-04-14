@@ -95,18 +95,40 @@ namespace Birth_Clinic.Display
                 
                 foreach (var s in room.Schedules)
                 {
-                    
-                    if (DateTime.Now < s.From && count == 0)
+                    if (DateTime.Now < s.From && count == 0 && s.From <= DateTime.Now.AddDays(5))
                     {
                         Console.WriteLine("Room: " + room.RoomName + " is available from " + DateTime.Now + " to " + s.From);
                         lastTime = s.To;
                         count++;
                     }
-                    else
+                    else if(s.From <= DateTime.Now.AddDays(5))
                     {
                         Console.WriteLine("Room: " + room.RoomName + " is available from " + lastTime + " to " + s.From);
                         lastTime = s.To;
+                        count++;
                     }
+
+                    if (count == total) 
+                    {
+                        Console.WriteLine("Room: " + room.RoomName + " is available from " + lastTime + " to TBD.");
+                    }
+                    
+                }
+            }
+        }
+
+        public void ShowOnGoingBirths(AppDbContext context)
+        {
+            IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
+            var Parents = unitOfWork.Parents.GetOnGoingBirths();
+            Console.WriteLine("DueDates within the next 1 hour");
+            foreach (var parent in Parents)
+            {
+                if (DateTime.Now.AddHours(1) >= parent.DueDate)
+                {
+                    Console.WriteLine("Mother: " + parent.Mother.FirstName + " " + parent.Mother.LastName);
+                    Console.WriteLine("Father: " + parent.Father.FirstName + " " + parent.Father.LastName);
+                    Console.WriteLine("DueDate: " + parent.DueDate);
                 }
             }
         }

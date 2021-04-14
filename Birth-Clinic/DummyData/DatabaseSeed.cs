@@ -18,11 +18,11 @@ namespace Birth_Clinic.DummyData
         public void AddFatherAndMother()
         {
             using var context = new AppDbContext();
-
+            var rand = new Random();
             Parent parent = new Parent()
             {
-                DueDate = DateTime.Now,
-
+                DueDate = DateTime.Now.AddMinutes(10),
+                ClinicRooms = //Lav function der tjekker fra DueDate(-1 time) til from og ser om der er et 4 timers interval hvor der kan tilføjes en parrent? hvis ikke så kig på næste birth room osv osv. hvis ikke der er plads find det birth room der er tættest på duedate
             };
 
             Father newFather = new Father()
@@ -47,7 +47,7 @@ namespace Birth_Clinic.DummyData
 
             Parent parent2 = new Parent()
             {
-                DueDate = DateTime.Now.AddDays(3)
+                DueDate = DateTime.Now.AddDays(3).AddHours(rand.Next(1,24))
 
             };
 
@@ -72,7 +72,7 @@ namespace Birth_Clinic.DummyData
 
             Parent parent3 = new Parent()
             {
-                DueDate = DateTime.Now.AddDays(5),
+                DueDate = DateTime.Now.AddDays(5).AddHours(rand.Next(1, 24)),
 
             };
 
@@ -97,7 +97,7 @@ namespace Birth_Clinic.DummyData
 
             Parent parent4 = new Parent()
             {
-                DueDate = DateTime.Now.AddDays(2),
+                DueDate = DateTime.Now.AddDays(2).AddHours(rand.Next(1, 24)),
 
             };
 
