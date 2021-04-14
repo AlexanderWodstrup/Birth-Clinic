@@ -39,7 +39,7 @@ namespace Birth_Clinic.Data
                 .HasOne<Mother>(p => p.Mother)
                 .WithOne(f => f.Parent)
                 .HasForeignKey<Mother>(f => f.ParentId);
-            
+
             ob.Entity<BirthRoom>();
             ob.Entity<MaternityRoom>();
             ob.Entity<RestRoom>();
