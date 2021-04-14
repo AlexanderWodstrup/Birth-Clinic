@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Birth_Clinic.Data;
 using Birth_Clinic.Interface;
@@ -10,6 +12,7 @@ using Birth_Clinic.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.VisualBasic;
 
 namespace Birth_Clinic.DummyData
 {
@@ -19,9 +22,13 @@ namespace Birth_Clinic.DummyData
         {
             using var context = new AppDbContext();
             var rand = new Random();
+
+
             Parent parent = new Parent()
             {
                 DueDate = DateTime.Now.AddMinutes(10),
+                Clinicians = availableClinicians(DateTime.Now.AddMinutes(10), context),
+                ClinicRooms = availableBirthRoom(DateTime.Now.AddMinutes(10),context),
                 //ClinicRooms = //Lav function der tjekker fra DueDate(-1 time) til from og ser om der er et 4 timers interval hvor der kan tilføjes en parrent? hvis ikke så kig på næste birth room osv osv. hvis ikke der er plads find det birth room der er tættest på duedate
             };
 
@@ -31,6 +38,7 @@ namespace Birth_Clinic.DummyData
                 LastName = "Wann",
                 Parent = parent,
             };
+            
 
             Mother newMother = new Mother()
             {
@@ -43,11 +51,13 @@ namespace Birth_Clinic.DummyData
             context.Add(newFather);
             context.Add(newMother);
             context.Add(parent);
-        
 
+            var date2 = DateTime.Now.AddDays(3).AddHours(rand.Next(1, 24));
             Parent parent2 = new Parent()
             {
-                DueDate = DateTime.Now.AddDays(3).AddHours(rand.Next(1,24))
+                DueDate = date2,
+                Clinicians = availableClinicians(date2, context),
+                ClinicRooms = availableBirthRoom(date2, context),
 
             };
 
@@ -70,9 +80,12 @@ namespace Birth_Clinic.DummyData
             context.Add(newMother2);
             context.Add(parent2);
 
+            var date3 = DateTime.Now.AddDays(5).AddHours(rand.Next(1, 24));
             Parent parent3 = new Parent()
             {
-                DueDate = DateTime.Now.AddDays(5).AddHours(rand.Next(1, 24)),
+                DueDate = date3,
+                Clinicians = availableClinicians(date3, context),
+                ClinicRooms = availableBirthRoom(date3, context),
 
             };
 
@@ -95,9 +108,12 @@ namespace Birth_Clinic.DummyData
             context.Add(newMother3);
             context.Add(parent3);
 
+            var date4 = DateTime.Now.AddDays(2).AddHours(rand.Next(1, 24));
             Parent parent4 = new Parent()
             {
-                DueDate = DateTime.Now.AddDays(2).AddHours(rand.Next(1, 24)),
+                DueDate = date4,
+                Clinicians = availableClinicians(date4, context),
+                ClinicRooms = availableBirthRoom(date4, context),
 
             };
 
@@ -175,7 +191,7 @@ namespace Birth_Clinic.DummyData
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
                     Salary = 10000,
-                    Schedules = randomWorkSchedule(i),
+                    Schedules = randomWorkSchedule(i, "midwife"),
                 };
                 unitOfWork.Clinicians.Add(Midwife);
             }
@@ -189,7 +205,7 @@ namespace Birth_Clinic.DummyData
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
                     Salary = 8000,
-                    Schedules = randomWorkSchedule(i),
+                    Schedules = randomWorkSchedule(i, "nurse"),
                 };
                 unitOfWork.Clinicians.Add(Nurse);
             }
@@ -202,7 +218,7 @@ namespace Birth_Clinic.DummyData
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
                     Salary = 10,
-                    Schedules = randomWorkSchedule(i),
+                    Schedules = randomWorkSchedule(i,"sosu"),
                 };
                 unitOfWork.Clinicians.Add(SOSU);
             }
@@ -215,7 +231,7 @@ namespace Birth_Clinic.DummyData
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
                     Salary = 50000,
-                    Schedules = randomWorkSchedule(i),
+                    Schedules = randomWorkSchedule(i, "doctor"),
                 };
                 unitOfWork.Clinicians.Add(Doctor);
             }
@@ -228,7 +244,7 @@ namespace Birth_Clinic.DummyData
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
                     Salary = 2500,
-                    Schedules = randomWorkSchedule(i),
+                    Schedules = randomWorkSchedule(i, "secretary"),
                 };
                 unitOfWork.Clinicians.Add(Secretary);
             }
@@ -238,6 +254,112 @@ namespace Birth_Clinic.DummyData
             
         }
 
+        public List<ClinicRoom> availableBirthRoom(DateTime DueDate, AppDbContext context)
+        {
+            IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
+
+            var birthroom = unitOfWork.Rooms.GetRoomsWithSchedule().Where(c => c is BirthRoom);
+
+            List<ClinicRoom> newBirtRooms = new List<ClinicRoom>();
+
+            var count = 0;
+
+            foreach (var b in birthroom)
+            {
+                foreach (var v in b.Schedules)
+                {
+
+                    // DueDate = d. 14 kl 12.
+                    // Schedule = d. 14 kl 10. til 16.
+
+                    if (v.From < DueDate && v.To >= DueDate)
+                    {
+                    }
+                    else if (count == 0)
+                    {
+                        b.Schedules.Add(new Schedule() {From = DueDate, To = DueDate.AddHours(23)});
+                        unitOfWork.Complete();
+                        newBirtRooms.Add(b);
+                        count++;
+                    }
+                }
+            }
+
+            return newBirtRooms;
+        }
+        public List<Clinician> availableClinicians(DateTime DueDate, AppDbContext context)
+        {
+            IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
+            var midwife = unitOfWork.Clinicians.GetCliniciansWorkingTimes().Where(c => c is MidWife).ToList();
+            var doctor = unitOfWork.Clinicians.GetCliniciansWorkingTimes().Where(c => c is Doctor).ToList();
+            var nurse = unitOfWork.Clinicians.GetCliniciansWorkingTimes().Where(c => c is Nurse).ToList();
+            var sosu = unitOfWork.Clinicians.GetCliniciansWorkingTimes().Where(c => c is SOSU_Assistent).ToList();
+
+            List<Clinician> newClinicians = new List<Clinician>();
+
+            var count = 0;
+            foreach (var m in midwife)
+            {
+               
+                foreach (var v in m.Schedules)
+                {
+                    if (v.From < DueDate && v.To >= DueDate && count == 0)
+                    {
+                        newClinicians.Add(m);
+                        count++;
+                    }
+
+                }
+            }
+
+            count = 0;
+            foreach (var m in doctor)
+            {
+
+                foreach (var v in m.Schedules)
+                {
+                    if (v.From < DueDate && v.To >= DueDate && count == 0)
+                    {
+                        newClinicians.Add(m);
+                        count++;
+                    }
+
+                }
+            }
+
+            count = 0;
+            foreach (var m in nurse)
+            {
+
+                foreach (var v in m.Schedules)
+                {
+                    if (v.From < DueDate && v.To >= DueDate && count == 0)
+                    {
+                        newClinicians.Add(m);
+                        count++;
+                    }
+
+                }
+            }
+
+            count = 0;
+            foreach (var m in sosu)
+            {
+
+                foreach (var v in m.Schedules)
+                {
+                    if (v.From < DueDate && v.To >= DueDate && count == 0)
+                    {
+                        newClinicians.Add(m);
+                        count++;
+                    }
+
+                }
+            }
+
+            return newClinicians;
+
+        }
         public string randomLastName()
         {
             string[] LastName =
@@ -268,6 +390,8 @@ namespace Birth_Clinic.DummyData
 
             return FirstNames[rand.Next(FirstNames.Length)];
         }
+
+        
         public List<Schedule> randomRestRoomSchedule()
         {
             var rand = new Random();
@@ -333,15 +457,40 @@ namespace Birth_Clinic.DummyData
             return schedules;
         }
 
+        
 
-        public List<Schedule> randomWorkSchedule(int i)
+
+        public List<Schedule> randomWorkSchedule(int i, string worker)
         {
             int startWorkTime;
-            if (i <= 2)
+            int morning;
+            int midday;
+            if (worker == "midwife")
+            {
+                morning = 3;
+                midday = 6;
+            }
+            else if (worker == "doctor")
+            {
+                morning = 1;
+                midday = 1;
+            }
+            else if (worker == "secretary")
+            {
+                morning = 1;
+                midday = 0;
+            }
+            else
+            {
+                morning = 6;
+                midday = 12;
+            }
+
+            if (i <= morning)
             {
                 startWorkTime = 8;
             }
-            else if (i <= 5 && i > 2)
+            else if (i <= midday && i > morning)
             {
                 startWorkTime = 16;
             }
@@ -351,6 +500,11 @@ namespace Birth_Clinic.DummyData
             }
             List<Schedule> Schedules = new List<Schedule>()
             {
+                new Schedule()
+                {
+                    From = DateTime.Now.AddDays(0).Date + new TimeSpan(startWorkTime,0,0),
+                    To = (DateTime.Now.AddDays(0).Date + new TimeSpan(startWorkTime,0,0)).AddHours(8),
+                },
                 new Schedule()
                 {
                     From = DateTime.Now.AddDays(1).Date + new TimeSpan(startWorkTime,0,0),
@@ -370,11 +524,6 @@ namespace Birth_Clinic.DummyData
                 {
                     From = DateTime.Now.AddDays(4).Date + new TimeSpan(startWorkTime,0,0),
                     To = (DateTime.Now.AddDays(4).Date + new TimeSpan(startWorkTime,0,0)).AddHours(8),
-                },
-                new Schedule()
-                {
-                    From = DateTime.Now.AddDays(5).Date + new TimeSpan(startWorkTime,0,0),
-                    To = (DateTime.Now.AddDays(5).Date + new TimeSpan(startWorkTime,0,0)).AddHours(8),
                 }
             };
 
