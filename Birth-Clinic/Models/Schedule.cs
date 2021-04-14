@@ -9,7 +9,7 @@ namespace Birth_Clinic.Models
 {
     public class Schedule
     {
-        public int SchedulerId { get; set; }
+        public int ScheduleId { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }
         public ClinicRoom ClinicRoom { get; set; }
