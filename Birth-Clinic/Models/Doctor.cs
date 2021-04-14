@@ -7,8 +7,9 @@ using Birth_Clinic.Interface;
 
 namespace Birth_Clinic.Models
 {
-    public class BirthRoom : ClinicRoom
+    public class Doctor : Clinician
     {
         
+      
     }
 }

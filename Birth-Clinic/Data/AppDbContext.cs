@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Birth_Clinic.Interface;
 using Birth_Clinic.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,12 +16,11 @@ namespace Birth_Clinic.Data
             ob.UseSqlServer(
                 @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BirthClinic;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
-
+        public DbSet<ClinicRoom> Rooms { get; set; }
+        public DbSet<Clinician> Clinicians { get; set; }
         protected override void OnModelCreating(ModelBuilder ob)
         {
-            ob.Entity<Mother>().HasKey(m => new {m.FirstName, m.LastName});
-
-            ob.Entity<Father>().HasKey(f => new {f.FirstName, f.LastName});
+            
         }
     }
 }

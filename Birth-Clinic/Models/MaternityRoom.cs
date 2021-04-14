@@ -7,16 +7,8 @@ using Birth_Clinic.Interface;
 
 namespace Birth_Clinic.Models
 {
-    public class MaternityRoom : IClinicRoom
+    public class MaternityRoom : ClinicRoom
     {
-        public string RoomName { get; set; }
-        public int RoomId { get; set; }
-        public bool Availability { get; set; }
-
-        public void SetAvailability(bool state)
-        {
-            Availability = state;
-        }
-        public BirthClinic BirthClinic { get; set; }
+        
     }
 }
