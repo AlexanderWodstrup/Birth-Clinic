@@ -10,5 +10,7 @@ namespace Birth_Clinic.Repository
     public interface IClinicianRepository : IRepository<Clinician>
     {
         public IEnumerable<Clinician> GetCliniciansWorkingTimes();
+
+        public List<Clinician> GetCliniciansAtWorkDuringDuedate();
     }
 }

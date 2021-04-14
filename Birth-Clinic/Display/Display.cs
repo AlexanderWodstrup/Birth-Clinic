@@ -93,7 +93,7 @@ namespace Birth_Clinic.Display
                 var count = 0;
                 var total = room.Schedules.Count;
                 
-                foreach (var s in room.Schedules)
+                foreach (var s in room.Schedules.Where(s => s.From >= DateTime.Now.Date && s.To < DateTime.Now.AddDays(5)).OrderBy(f => f.From.Date.Hour))
                 {
                     if (DateTime.Now < s.From && count == 0 && s.From <= DateTime.Now.AddDays(5))
                     {
@@ -101,7 +101,7 @@ namespace Birth_Clinic.Display
                         lastTime = s.To;
                         count++;
                     }
-                    else if(s.From <= DateTime.Now.AddDays(5))
+                    else if(s.From < DateTime.Now.AddDays(5))
                     {
                         Console.WriteLine("Room: " + room.RoomName + " is available from " + lastTime + " to " + s.From);
                         lastTime = s.To;
