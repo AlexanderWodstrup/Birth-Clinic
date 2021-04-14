@@ -21,6 +21,7 @@ namespace Birth_Clinic
                     Console.WriteLine();
                     Console.WriteLine("Commands:");
                     Console.WriteLine("List    ::: List Rooms");
+                    Console.WriteLine("CW      ::: See alle clinician working times");
                     Console.WriteLine("Check   ::: Checks planned births for the next 3 days");
                     Console.WriteLine("Clear   ::: Clear database");
                     Console.WriteLine("Seed    ::: Seed database with dummydata");
@@ -32,6 +33,9 @@ namespace Birth_Clinic
                         case "List" or "list":
                             Console.Clear();
                             display.ShowRooms(context);
+                            break;
+                        case "CW" or "cw":
+                            display.ShowClinicianAvailability(context);
                             break;
                         case "Check" or "check":
                             Console.Clear();

@@ -57,5 +57,29 @@ namespace Birth_Clinic.Display
             }
             
         }
+
+        public void ShowClinicianAvailability(AppDbContext context)
+        {
+            IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
+
+            var clinicianWorkings = unitOfWork.Clinicians.GetCliniciansWorkingTimes();
+
+            foreach (var clinicianWorking in clinicianWorkings)
+            {
+                foreach (var s in clinicianWorking.Schedules)
+                {
+                    if (s.To < DateTime.Now.AddDays(5))
+                    {
+                        Console.WriteLine(
+                            "Type: " + clinicianWorking.ToString().Replace("Birth_Clinic.Models.", "") 
+                                     + " Name: " + clinicianWorking.FirstName + " " + clinicianWorking.LastName + 
+                                     " Date: " + s.From + " - " + s.To
+                        );
+                    }
+                }
+                
+            }
+            Console.WriteLine("All clinicians work times listed");
+        }
     }
 }

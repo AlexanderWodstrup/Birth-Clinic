@@ -170,7 +170,7 @@ namespace Birth_Clinic.DummyData
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
                     Salary = 10000,
-                    Schedules = randomWorkSchedule(),
+                    Schedules = randomWorkSchedule(i),
                 };
                 unitOfWork.Clinicians.Add(Midwife);
             }
@@ -183,7 +183,8 @@ namespace Birth_Clinic.DummyData
                 {
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
-                    Salary = 8000
+                    Salary = 8000,
+                    Schedules = randomWorkSchedule(i),
                 };
                 unitOfWork.Clinicians.Add(Nurse);
             }
@@ -195,7 +196,8 @@ namespace Birth_Clinic.DummyData
                 {
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
-                    Salary = 10
+                    Salary = 10,
+                    Schedules = randomWorkSchedule(i),
                 };
                 unitOfWork.Clinicians.Add(SOSU);
             }
@@ -207,7 +209,8 @@ namespace Birth_Clinic.DummyData
                 {
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
-                    Salary = 50000
+                    Salary = 50000,
+                    Schedules = randomWorkSchedule(i),
                 };
                 unitOfWork.Clinicians.Add(Doctor);
             }
@@ -219,7 +222,8 @@ namespace Birth_Clinic.DummyData
                 {
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
-                    Salary = 2500
+                    Salary = 2500,
+                    Schedules = randomWorkSchedule(i),
                 };
                 unitOfWork.Clinicians.Add(Secretary);
             }
@@ -260,27 +264,52 @@ namespace Birth_Clinic.DummyData
             return FirstNames[rand.Next(FirstNames.Length)];
         }
 
-        public List<Schedule> randomWorkSchedule()
+        public List<Schedule> randomWorkSchedule(int i)
         {
-            List<Schedule> schedules = new List<Schedule>()
+            int startWorkTime;
+            if (i <= 2)
+            {
+                startWorkTime = 8;
+            }
+            else if (i <= 5 && i > 2)
+            {
+                startWorkTime = 16;
+            }
+            else
+            {
+                startWorkTime = 00;
+            }
+            List<Schedule> Schedules = new List<Schedule>()
             {
                 new Schedule()
                 {
-                    From = DateTime.Now.AddDays(1),
-                    To = DateTime.Now.AddDays(1).AddHours(4),
+                    From = DateTime.Now.AddDays(1).Date + new TimeSpan(startWorkTime,0,0),
+                    To = (DateTime.Now.AddDays(1).Date + new TimeSpan(startWorkTime,0,0)).AddHours(8),
                 },
                 new Schedule()
                 {
-                    From = DateTime.Now.AddDays(2).AddHours(4),
-                    To = DateTime.Now.AddDays(2).AddHours(12),
+                    From = DateTime.Now.AddDays(2).Date + new TimeSpan(startWorkTime,0,0),
+                    To = (DateTime.Now.AddDays(2).Date + new TimeSpan(startWorkTime,0,0)).AddHours(8),
                 },
                 new Schedule()
                 {
-                    From = DateTime.Now.AddDays(4),
-                    To = DateTime.Now.AddDays(4).AddHours(6),
+                    From = DateTime.Now.AddDays(3).Date + new TimeSpan(startWorkTime,0,0),
+                    To = (DateTime.Now.AddDays(3).Date + new TimeSpan(startWorkTime,0,0)).AddHours(8),
+                },
+                new Schedule()
+                {
+                    From = DateTime.Now.AddDays(4).Date + new TimeSpan(startWorkTime,0,0),
+                    To = (DateTime.Now.AddDays(4).Date + new TimeSpan(startWorkTime,0,0)).AddHours(8),
+                },
+                new Schedule()
+                {
+                    From = DateTime.Now.AddDays(5).Date + new TimeSpan(startWorkTime,0,0),
+                    To = (DateTime.Now.AddDays(5).Date + new TimeSpan(startWorkTime,0,0)).AddHours(8),
                 }
             };
-            return schedules;
+
+            return Schedules;
+
         }
 
         public bool WipeDatabase(bool onlyIfNoDatabase)
