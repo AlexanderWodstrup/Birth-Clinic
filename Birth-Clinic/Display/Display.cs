@@ -91,17 +91,24 @@ namespace Birth_Clinic.Display
             foreach (var room in Rooms)
             {
                 var count = 0;
+                var total = room.Schedules.Count;
+                DateTime lastTime;
                 foreach (var s in room.Schedules)
                 {
-                    if (DateTime.Now < s.From && count == 0)
+                    while (count < total)
                     {
+                        if (DateTime.Now < s.From && count == 0)
+                        {
+                            Console.WriteLine("Room: " + room.RoomName + " is available from " + DateTime.Now + " to " + s.From);
+                            lastTime = s.To;
+                        }
+
+                        if (DateTime.Now < s.From && count == 0)
+                        {
+                            Console.WriteLine("Room: " + room.RoomName + " is available from " + DateTime.Now + " to " + s.From);
+                            lastTime = s.To;
+                        }
                         count++;
-                        Console.WriteLine("Room: " + room.RoomName + " is available from " + DateTime.Now + " to " + s.To);
-                    }
-                    if (DateTime.Now < s.From && count == 1)
-                    {
-                        count++;
-                        Console.WriteLine("Room: " + room.RoomName + " is available from " + DateTime.Now + " to " + s.To);
                     }
                 }
             }
