@@ -12,12 +12,7 @@ namespace Birth_Clinic.Interface
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public double Salary { get; set; }
-        public bool Availability { get; set; }
-
-        public void SetAvailability(bool state)
-        {
-            Availability = state;
-        }
-        public BirthClinic BirthClinic { get; set; }
+        public List<Schedule> Schedules { get; set; }
+        public Parent Parent { get; set; }
     }
 }

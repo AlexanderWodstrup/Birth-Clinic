@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Birth_Clinic.Interface;
 
 namespace Birth_Clinic.Models
 {
@@ -15,6 +17,8 @@ namespace Birth_Clinic.Models
         public Father Father { get; set; }
 
         public DateTime DueDate { get; set; }
-        public BirthClinic BirthClinic { get; set; }
+
+        public List<Clinician> Clinicians { get; set; }
+        public List<ClinicRoom> ClinicRooms { get; set; }
     }
 }
