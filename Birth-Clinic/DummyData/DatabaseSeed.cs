@@ -22,7 +22,7 @@ namespace Birth_Clinic.DummyData
             Parent parent = new Parent()
             {
                 DueDate = DateTime.Now.AddMinutes(10),
-                ClinicRooms = //Lav function der tjekker fra DueDate(-1 time) til from og ser om der er et 4 timers interval hvor der kan tilføjes en parrent? hvis ikke så kig på næste birth room osv osv. hvis ikke der er plads find det birth room der er tættest på duedate
+                //ClinicRooms = //Lav function der tjekker fra DueDate(-1 time) til from og ser om der er et 4 timers interval hvor der kan tilføjes en parrent? hvis ikke så kig på næste birth room osv osv. hvis ikke der er plads find det birth room der er tættest på duedate
             };
 
             Father newFather = new Father()
@@ -175,7 +175,7 @@ namespace Birth_Clinic.DummyData
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
                     Salary = 10000,
-                    Schedules = randomWorkSchedule(i),
+                    Schedules = randomWorkSchedule(i, "midwife"),
                 };
                 unitOfWork.Clinicians.Add(Midwife);
             }
@@ -189,7 +189,7 @@ namespace Birth_Clinic.DummyData
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
                     Salary = 8000,
-                    Schedules = randomWorkSchedule(i),
+                    Schedules = randomWorkSchedule(i, "nurse"),
                 };
                 unitOfWork.Clinicians.Add(Nurse);
             }
@@ -202,7 +202,7 @@ namespace Birth_Clinic.DummyData
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
                     Salary = 10,
-                    Schedules = randomWorkSchedule(i),
+                    Schedules = randomWorkSchedule(i, "sosu"),
                 };
                 unitOfWork.Clinicians.Add(SOSU);
             }
@@ -215,7 +215,7 @@ namespace Birth_Clinic.DummyData
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
                     Salary = 50000,
-                    Schedules = randomWorkSchedule(i),
+                    Schedules = randomWorkSchedule(i, "doctor"),
                 };
                 unitOfWork.Clinicians.Add(Doctor);
             }
@@ -228,7 +228,7 @@ namespace Birth_Clinic.DummyData
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
                     Salary = 2500,
-                    Schedules = randomWorkSchedule(i),
+                    Schedules = randomWorkSchedule(i, "secretary"),
                 };
                 unitOfWork.Clinicians.Add(Secretary);
             }
@@ -334,14 +334,37 @@ namespace Birth_Clinic.DummyData
         }
 
 
-        public List<Schedule> randomWorkSchedule(int i)
+        public List<Schedule> randomWorkSchedule(int i, string worker)
         {
             int startWorkTime;
-            if (i <= 2)
+            int morning;
+            int midday;
+            if (worker == "midwife")
+            {
+                morning = 3;
+                midday = 6;
+            }
+            else if (worker == "doctor")
+            {
+                morning = 1;
+                midday = 1;
+            }
+            else if(worker == "secretary")
+            {
+                morning = 1;
+                midday = 0;
+            }
+            else
+            {
+                morning = 6;
+                midday = 12;
+            }
+
+            if (i <= morning)
             {
                 startWorkTime = 8;
             }
-            else if (i <= 5 && i > 2)
+            else if (i <= midday && i > morning)
             {
                 startWorkTime = 16;
             }
