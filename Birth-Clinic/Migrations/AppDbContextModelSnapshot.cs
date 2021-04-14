@@ -297,7 +297,8 @@ namespace Birth_Clinic.Migrations
 
                     b.Navigation("Father");
 
-                    b.Navigation("Mother");
+                    b.Navigation("Mother")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

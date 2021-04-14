@@ -15,7 +15,7 @@ namespace Birth_Clinic.DummyData
 {
     public class DatabaseSeed
     {
-        public static void AddFatherAndMother()
+        public void AddFatherAndMother()
         {
             using var context = new AppDbContext();
 

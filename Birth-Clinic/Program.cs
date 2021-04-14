@@ -5,8 +5,6 @@ using Birth_Clinic.DummyData;
 using Birth_Clinic.FunctionCalls;
 using Birth_Clinic.Models;
 using Microsoft.EntityFrameworkCore;
-using Birth_Clinic.Data;
-using Birth_Clinic.DummyData;
 
 namespace Birth_Clinic
 {
@@ -23,6 +21,7 @@ namespace Birth_Clinic
                     Console.WriteLine();
                     Console.WriteLine("Commands:");
                     Console.WriteLine("List    ::: List Rooms");
+                    Console.WriteLine("Check   ::: Checks planned births for the next 3 days");
                     Console.WriteLine("Clear   ::: Clear database");
                     Console.WriteLine("Seed    ::: Seed database with dummydata");
                     Console.WriteLine("Exit    ::: Closes the program");
@@ -33,10 +32,14 @@ namespace Birth_Clinic
                         case "List" or "list":
                             display.ShowRooms(context);
                             break;
+                        case "Check" or "Check":
+                            ClinicFunctions.checkBirth();
+                            break;
                         case "Seed" or "seed":
                             Console.Clear();
                             Seeder.AddRooms(context);
                             Seeder.AddWorkers(context);
+                            Seeder.AddFatherAndMother();
                             break;
                         case "Clear" or "clear":
                             Console.Clear();
@@ -47,13 +50,8 @@ namespace Birth_Clinic
                     }
                 } while (true);
             }
-            using var context = new AppDbContext();
-            context.Database.EnsureDeleted();
-            context.Database.Migrate();
-
-            DatabaseSeed.AddFatherAndMother();
-
-            ClinicFunctions.checkBirth();
+            
+            
         }
 
 
