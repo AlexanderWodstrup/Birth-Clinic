@@ -30,9 +30,11 @@ namespace Birth_Clinic
                     switch (command)
                     {
                         case "List" or "list":
+                            Console.Clear();
                             display.ShowRooms(context);
                             break;
                         case "Check" or "Check":
+                            Console.Clear();
                             ClinicFunctions.checkBirth();
                             break;
                         case "Seed" or "seed":

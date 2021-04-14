@@ -120,6 +120,7 @@ namespace Birth_Clinic.DummyData
             context.Add(newMother4);
             context.Add(parent4);
             context.SaveChanges();
+            Console.WriteLine("Father and Mother seeded");
         }
         public void AddRooms(AppDbContext context)
         {
