@@ -17,7 +17,8 @@ namespace Birth_Clinic.FunctionCalls
             var parents = context.Parents
                 .Include(f => f.Father)
                 .Include(m => m.Mother)
-                .Where(d => d.DueDate >= DateTime.Now.Date && d.DueDate < DateTime.Now.AddDays(3));
+                .Where(d => d.DueDate >= DateTime.Now.Date && d.DueDate < DateTime.Now.AddDays(3))
+                .OrderBy(p => p.DueDate.Date);
 
             Console.WriteLine("Incoming duedates in the next three days: ");
             foreach (var p in parents)
