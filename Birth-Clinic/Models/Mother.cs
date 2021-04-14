@@ -7,7 +7,7 @@ namespace Birth_Clinic.Models
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-
-        public Parent parent { get; set; }
+        public int ParentId { get; set; }   
+        public Parent Parent { get; set; }
     }
 }

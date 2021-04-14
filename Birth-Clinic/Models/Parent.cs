@@ -8,12 +8,13 @@ namespace Birth_Clinic.Models
         [Key]
         public int ParentId { get; set; }
 
-        public Mother Mom { get; set; }
+        public string MotherName { get; set; }
+        public Mother Mother { get; set; }
 
-        public Father Dad { get; set; }
+        public string FatherName { get; set; }
+        public Father Father { get; set; }
 
         public DateTime DueDate { get; set; }
-
         public BirthClinic BirthClinic { get; set; }
     }
 }

@@ -6,7 +6,6 @@ namespace Birth_Clinic.Models
     public class Child
     {
         [Key]
-
         public int ChildId { get; set; }
 
         public Parent Parents { get; set; }
