@@ -32,18 +32,17 @@ namespace Birth_Clinic.Data
 
             ob.Entity<Parent>()
                 .HasOne<Father>(p => p.Father)
-                .WithOne(f => f.Parent)
-                .HasForeignKey<Father>(f => f.ParentId);
+                .WithOne(f => f.Parent);
 
             ob.Entity<Parent>()
                 .HasOne<Mother>(p => p.Mother)
-                .WithOne(f => f.Parent)
-                .HasForeignKey<Mother>(f => f.ParentId);
+                .WithOne(f => f.Parent);
 
+
+            // Skriv i rapport/kode, at det kun virkede med dette hack
             ob.Entity<BirthRoom>();
             ob.Entity<MaternityRoom>();
             ob.Entity<RestRoom>();
-
             ob.Entity<Doctor>();
             ob.Entity<MidWife>();
             ob.Entity<Nurse>();

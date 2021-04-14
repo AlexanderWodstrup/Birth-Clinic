@@ -1,4 +1,10 @@
 ﻿using System;
+using System.Linq;
+using Birth_Clinic.Data;
+using Birth_Clinic.DummyData;
+using Birth_Clinic.FunctionCalls;
+using Birth_Clinic.Models;
+using Microsoft.EntityFrameworkCore;
 using Birth_Clinic.Data;
 using Birth_Clinic.DummyData;
 
@@ -41,6 +47,15 @@ namespace Birth_Clinic
                     }
                 } while (true);
             }
+            using var context = new AppDbContext();
+            context.Database.EnsureDeleted();
+            context.Database.Migrate();
+
+            DatabaseSeed.AddFatherAndMother();
+
+            ClinicFunctions.checkBirth();
         }
+
+
     }
 }

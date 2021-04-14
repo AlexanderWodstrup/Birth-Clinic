@@ -4,14 +4,16 @@ using Birth_Clinic.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Birth_Clinic.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210414093436_Clinic_Room_First_Create")]
+    partial class Clinic_Room_First_Create
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +23,7 @@ namespace Birth_Clinic.Migrations
 
             modelBuilder.Entity("Birth_Clinic.Interface.ClinicRoom", b =>
                 {
-                    b.Property<int>("ClinicRoomId")
+                    b.Property<int>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -36,7 +38,7 @@ namespace Birth_Clinic.Migrations
                     b.Property<string>("RoomName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ClinicRoomId");
+                    b.HasKey("RoomId");
 
                     b.HasIndex("ParentId");
 
@@ -47,19 +49,14 @@ namespace Birth_Clinic.Migrations
 
             modelBuilder.Entity("Birth_Clinic.Interface.Clinician", b =>
                 {
-                    b.Property<int>("ClinicianId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ParentId")
@@ -68,7 +65,7 @@ namespace Birth_Clinic.Migrations
                     b.Property<double>("Salary")
                         .HasColumnType("float");
 
-                    b.HasKey("ClinicianId");
+                    b.HasKey("FirstName", "LastName");
 
                     b.HasIndex("ParentId");
 
@@ -79,21 +76,16 @@ namespace Birth_Clinic.Migrations
 
             modelBuilder.Entity("Birth_Clinic.Models.Father", b =>
                 {
-                    b.Property<int>("FatherId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ParentId")
                         .HasColumnType("int");
 
-                    b.HasKey("FatherId");
+                    b.HasKey("FirstName", "LastName");
 
                     b.HasIndex("ParentId")
                         .IsUnique();
@@ -103,21 +95,16 @@ namespace Birth_Clinic.Migrations
 
             modelBuilder.Entity("Birth_Clinic.Models.Mother", b =>
                 {
-                    b.Property<int>("MotherId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ParentId")
                         .HasColumnType("int");
 
-                    b.HasKey("MotherId");
+                    b.HasKey("FirstName", "LastName");
 
                     b.HasIndex("ParentId")
                         .IsUnique();
@@ -135,6 +122,12 @@ namespace Birth_Clinic.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("FatherName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MotherName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ParentId");
 
                     b.ToTable("Parents");
@@ -147,11 +140,14 @@ namespace Birth_Clinic.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClinicRoomId")
+                    b.Property<int?>("ClinicRoomRoomId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ClinicianId")
-                        .HasColumnType("int");
+                    b.Property<string>("ClinicianFirstName")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ClinicianLastName")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("From")
                         .HasColumnType("datetime2");
@@ -161,9 +157,9 @@ namespace Birth_Clinic.Migrations
 
                     b.HasKey("ScheduleId");
 
-                    b.HasIndex("ClinicRoomId");
+                    b.HasIndex("ClinicRoomRoomId");
 
-                    b.HasIndex("ClinicianId");
+                    b.HasIndex("ClinicianFirstName", "ClinicianLastName");
 
                     b.ToTable("Schedule");
                 });
@@ -268,11 +264,11 @@ namespace Birth_Clinic.Migrations
                 {
                     b.HasOne("Birth_Clinic.Interface.ClinicRoom", "ClinicRoom")
                         .WithMany("Schedules")
-                        .HasForeignKey("ClinicRoomId");
+                        .HasForeignKey("ClinicRoomRoomId");
 
                     b.HasOne("Birth_Clinic.Interface.Clinician", "Clinician")
                         .WithMany("Schedules")
-                        .HasForeignKey("ClinicianId");
+                        .HasForeignKey("ClinicianFirstName", "ClinicianLastName");
 
                     b.Navigation("Clinician");
 
