@@ -131,6 +131,7 @@ namespace Birth_Clinic.DummyData
                 ClinicRoom BirthRoom = new BirthRoom()
                 {
                     RoomName = "Birth Room - " + i,
+                    Schedules = randomBirthRoomSchedule(),
                 };
                 unitOfWork.Rooms.Add(BirthRoom);
             }
@@ -141,6 +142,7 @@ namespace Birth_Clinic.DummyData
                 ClinicRoom MaternityRoom = new MaternityRoom()
                 {
                     RoomName = "Maternity Room - " + i,
+                    Schedules = randomMaternityRoomSchedule(),
                 };
                 unitOfWork.Rooms.Add(MaternityRoom);
             }
@@ -151,6 +153,7 @@ namespace Birth_Clinic.DummyData
                 ClinicRoom RestRoom = new RestRoom()
                 {
                     RoomName = "Rest Room - " + i,
+                    Schedules = randomRestRoomSchedule(),
                 };
                 unitOfWork.Rooms.Add(RestRoom);
             }
@@ -259,6 +262,71 @@ namespace Birth_Clinic.DummyData
 
             return FirstNames[rand.Next(FirstNames.Length)];
         }
+        public List<Schedule> randomRestRoomSchedule()
+        {
+            var rand = new Random();
+            var randomDay = DateTime.Now.AddDays(rand.Next(0, 5)).AddHours(rand.Next(0, 24));
+            List<Schedule> schedules = new List<Schedule>()
+            {
+                new Schedule()
+                {
+                    From = randomDay,
+                    To = randomDay.AddHours(4),
+                },
+                new Schedule()
+                {
+                    From = randomDay.AddHours(5),
+                    To = randomDay.AddHours(9),
+                },
+                new Schedule()
+                {
+                    From = randomDay.AddHours(10),
+                    To = randomDay.AddHours(14),
+                }
+            };
+            return schedules;
+        }
+        public List<Schedule> randomMaternityRoomSchedule()
+        {
+            var rand = new Random();
+            var randomDay = DateTime.Now.AddDays(rand.Next(0, 5)).AddHours(rand.Next(0, 24));
+            List<Schedule> schedules = new List<Schedule>()
+            {
+                new Schedule()
+                {
+                    From = randomDay,
+                    To = randomDay.AddDays(rand.Next(0,5)).AddHours(rand.Next(1,24))
+                },
+            };
+            return schedules;
+        }
+
+        public List<Schedule> randomBirthRoomSchedule()
+        {
+            var rand = new Random();
+            var randomDay = DateTime.Now.AddDays(rand.Next(0, 5)).AddHours(rand.Next(0,24));
+            List<Schedule> schedules = new List<Schedule>()
+            {
+
+                new Schedule()
+                {
+                    From = randomDay,
+                    To = randomDay.AddHours(rand.Next(1,24))
+                },
+                new Schedule()
+                {
+                    From = randomDay.AddDays(2),
+                    To = randomDay.AddDays(2).AddHours(rand.Next(1,24)),
+                },
+                new Schedule()
+                {
+                    From = randomDay.AddDays(4),
+                    To = randomDay.AddDays(4).AddHours(rand.Next(1,24)),
+                }
+            };
+            return schedules;
+        }
+
 
         public List<Schedule> randomWorkSchedule()
         {
