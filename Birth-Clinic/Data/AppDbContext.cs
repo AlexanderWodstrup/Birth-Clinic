@@ -20,7 +20,10 @@ namespace Birth_Clinic.Data
         public DbSet<Clinician> Clinicians { get; set; }
         protected override void OnModelCreating(ModelBuilder ob)
         {
-            
+            ob.Entity<Clinician>().HasKey(c => new { c.FirstName, c.LastName });
+            ob.Entity<BirthClinic>().HasKey(bc => bc.Name);
+            ob.Entity<Father>().HasKey(f => new {f.FirstName, f.LastName});
+            ob.Entity<Mother>().HasKey(m => new {m.FirstName, m.LastName});
         }
     }
 }
