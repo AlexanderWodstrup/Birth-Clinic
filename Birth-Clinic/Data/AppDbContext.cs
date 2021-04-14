@@ -16,13 +16,41 @@ namespace Birth_Clinic.Data
             ob.UseSqlServer(
                 @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BirthClinic;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
-
+        public DbSet<ClinicRoom> Rooms { get; set; }
+        public DbSet<Clinician> Clinicians { get; set; }
+        public DbSet<Parent> Parents { get; set; }
         protected override void OnModelCreating(ModelBuilder ob)
         {
             ob.Entity<Clinician>().HasKey(c => new { c.FirstName, c.LastName });
-            ob.Entity<ClinicRoom>().HasKey(bc => bc.RoomId);
+
             ob.Entity<BirthClinic>().HasKey(bc => bc.Name);
-          
+
+            ob.Entity<ClinicRoom>().HasKey(cr => cr.RoomId);
+
+            ob.Entity<Father>().HasKey(f => new {f.FirstName, f.LastName});
+            ob.Entity<Mother>().HasKey(m => new {m.FirstName, m.LastName});
+
+            ob.Entity<Parent>().HasKey(p => p.ParentId);
+
+            ob.Entity<Parent>()
+                .HasOne<Father>(p => p.Father)
+                .WithOne(f => f.Parent)
+                .HasForeignKey<Father>(f => f.ParentId);
+
+            ob.Entity<Parent>()
+                .HasOne<Mother>(p => p.Mother)
+                .WithOne(f => f.Parent)
+                .HasForeignKey<Mother>(f => f.ParentId);
+            
+            ob.Entity<BirthRoom>();
+            ob.Entity<MaternityRoom>();
+            ob.Entity<RestRoom>();
+
+            ob.Entity<Doctor>();
+            ob.Entity<MidWife>();
+            ob.Entity<Nurse>();
+            ob.Entity<Secretary>();
+            ob.Entity<SOSU_Assistent>();
         }
     }
 }
