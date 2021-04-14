@@ -22,7 +22,7 @@ namespace Birth_Clinic.DummyData
             Parent parent = new Parent()
             {
                 DueDate = DateTime.Now.AddMinutes(10),
-                ClinicRooms = //Lav function der tjekker fra DueDate(-1 time) til from og ser om der er et 4 timers interval hvor der kan tilføjes en parrent? hvis ikke så kig på næste birth room osv osv. hvis ikke der er plads find det birth room der er tættest på duedate
+                //ClinicRooms = //Lav function der tjekker fra DueDate(-1 time) til from og ser om der er et 4 timers interval hvor der kan tilføjes en parrent? hvis ikke så kig på næste birth room osv osv. hvis ikke der er plads find det birth room der er tættest på duedate
             };
 
             Father newFather = new Father()
