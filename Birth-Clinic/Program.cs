@@ -18,7 +18,6 @@ namespace Birth_Clinic
 
             DatabaseSeed.AddFatherAndMother();
 
-
             ClinicFunctions.checkBirth();
         }
 

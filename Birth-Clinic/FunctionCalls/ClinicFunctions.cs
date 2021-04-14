@@ -22,7 +22,14 @@ namespace Birth_Clinic.FunctionCalls
             Console.WriteLine("Incoming duedates in the next three days: ");
             foreach (var p in parents)
             {
-                Console.WriteLine($"{p.DueDate.ToString("dd/MM/yyyy")}, Fathers name is {p.Father.FirstName} and Mothers name is {p.Mother.FirstName}");
+                if (p.Father != null)
+                {
+                    Console.WriteLine($"{p.DueDate.ToString("dd/MM/yyyy")}, Fathers name is {p.Father.FirstName} and Mothers name is {p.Mother.FirstName}");
+                }
+                else
+                {
+                    Console.WriteLine($"{p.DueDate.ToString("dd/MM/yyyy")}, There is no father and Mothers name is {p.Mother.FirstName}");
+                }
             }
         }
     }

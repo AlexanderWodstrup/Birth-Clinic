@@ -8,6 +8,7 @@ namespace Birth_Clinic.Models
     public class Parent
     {
         public int ParentId { get; set; }
+        [Required]
         public Mother Mother { get; set; }
         public Father Father { get; set; }
         public DateTime DueDate { get; set; }

@@ -92,16 +92,16 @@ namespace Birth_Clinic.DummyData
 
             Parent parent4 = new Parent()
             {
-                DueDate = new DateTime(2021, 04, 18),
+                DueDate = new DateTime(2021, 04, 16),
 
             };
 
-            Father newFather4 = new Father()
-            {
-                FirstName = "August",
-                LastName = "Andersen",
-                Parent = parent4,
-            };
+            //Father newFather4 = new Father()
+            //{
+            //    FirstName = "August",
+            //    LastName = "Andersen",
+            //    Parent = parent4,
+            //};
 
             Mother newMother4 = new Mother()
             {
@@ -109,9 +109,9 @@ namespace Birth_Clinic.DummyData
                 LastName = "Ingemann",
                 Parent = parent4,
             };
-            parent4.Father = newFather4;
+            //parent4.Father = newFather4;
             parent4.Mother = newMother4;
-            context.Add(newFather4);
+            //context.Add(newFather4);
             context.Add(newMother4);
             context.Add(parent4);
             context.SaveChanges();
