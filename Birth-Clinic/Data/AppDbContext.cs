@@ -23,8 +23,6 @@ namespace Birth_Clinic.Data
         {
             ob.Entity<Clinician>().HasKey(c => new { c.FirstName, c.LastName });
 
-            ob.Entity<BirthClinic>().HasKey(bc => bc.Name);
-
             ob.Entity<ClinicRoom>().HasKey(cr => cr.RoomId);
 
             ob.Entity<Father>().HasKey(f => new {f.FirstName, f.LastName});
