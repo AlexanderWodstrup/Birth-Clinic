@@ -21,29 +21,19 @@ namespace Birth_Clinic.Data
         public DbSet<Parent> Parents { get; set; }
         protected override void OnModelCreating(ModelBuilder ob)
         {
-            ob.Entity<Clinician>().HasKey(c => new { c.FirstName, c.LastName });
-
-            ob.Entity<ClinicRoom>().HasKey(cr => cr.RoomId);
-
-            ob.Entity<Father>().HasKey(f => new {f.FirstName, f.LastName});
-            ob.Entity<Mother>().HasKey(m => new {m.FirstName, m.LastName});
-
-            ob.Entity<Parent>().HasKey(p => p.ParentId);
-
             ob.Entity<Parent>()
                 .HasOne<Father>(p => p.Father)
-                .WithOne(f => f.Parent)
-                .HasForeignKey<Father>(f => f.ParentId);
+                .WithOne(f => f.Parent);
 
             ob.Entity<Parent>()
                 .HasOne<Mother>(p => p.Mother)
-                .WithOne(f => f.Parent)
-                .HasForeignKey<Mother>(f => f.ParentId);
-            
+                .WithOne(f => f.Parent);
+
+
+            // Skriv i rapport/kode, at det kun virkede med dette hack
             ob.Entity<BirthRoom>();
             ob.Entity<MaternityRoom>();
             ob.Entity<RestRoom>();
-
             ob.Entity<Doctor>();
             ob.Entity<MidWife>();
             ob.Entity<Nurse>();

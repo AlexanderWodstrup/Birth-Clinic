@@ -1,4 +1,10 @@
 ﻿using System;
+using System.Linq;
+using Birth_Clinic.Data;
+using Birth_Clinic.DummyData;
+using Birth_Clinic.FunctionCalls;
+using Birth_Clinic.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Birth_Clinic
 {
@@ -6,7 +12,16 @@ namespace Birth_Clinic
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            using var context = new AppDbContext();
+            context.Database.EnsureDeleted();
+            context.Database.Migrate();
+
+            DatabaseSeed.AddFatherAndMother();
+
+
+            ClinicFunctions.checkBirth();
         }
+
+
     }
 }
