@@ -86,29 +86,26 @@ namespace Birth_Clinic.Display
         public void ShowRoomsAvailability(AppDbContext context)
         {
             IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
-            
+            DateTime lastTime = new DateTime();
             var Rooms = unitOfWork.Rooms.GetRoomsWithSchedule();
             foreach (var room in Rooms)
             {
                 var count = 0;
                 var total = room.Schedules.Count;
-                DateTime lastTime;
+                
                 foreach (var s in room.Schedules)
                 {
-                    while (count < total)
+                    
+                    if (DateTime.Now < s.From && count == 0)
                     {
-                        if (DateTime.Now < s.From && count == 0)
-                        {
-                            Console.WriteLine("Room: " + room.RoomName + " is available from " + DateTime.Now + " to " + s.From);
-                            lastTime = s.To;
-                        }
-
-                        if (DateTime.Now < s.From && count > 0)
-                        {
-                            Console.WriteLine("Room: " + room.RoomName + " is available from " + lastTime.ToString() + " to " + s.From);
-                            lastTime = s.To;
-                        }
+                        Console.WriteLine("Room: " + room.RoomName + " is available from " + DateTime.Now + " to " + s.From);
+                        lastTime = s.To;
                         count++;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Room: " + room.RoomName + " is available from " + lastTime + " to " + s.From);
+                        lastTime = s.To;
                     }
                 }
             }

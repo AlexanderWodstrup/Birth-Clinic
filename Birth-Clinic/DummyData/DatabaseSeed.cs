@@ -135,6 +135,7 @@ namespace Birth_Clinic.DummyData
                 };
                 unitOfWork.Rooms.Add(BirthRoom);
             }
+            unitOfWork.Complete();
 
             //Seeder 22 maternityrooms i databasen
             for (int i = 1; i < 23; i++)
@@ -146,6 +147,7 @@ namespace Birth_Clinic.DummyData
                 };
                 unitOfWork.Rooms.Add(MaternityRoom);
             }
+            unitOfWork.Complete();
 
             //Seeder 5 restrooms i databasen
             for (int i = 1; i < 6; i++)
@@ -157,8 +159,8 @@ namespace Birth_Clinic.DummyData
                 };
                 unitOfWork.Rooms.Add(RestRoom);
             }
-
             unitOfWork.Complete();
+
             Console.WriteLine("Rooms seeded");
         }
 
