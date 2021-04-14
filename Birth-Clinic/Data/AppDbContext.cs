@@ -21,7 +21,7 @@ namespace Birth_Clinic.Data
         public DbSet<Parent> Parents { get; set; }
         protected override void OnModelCreating(ModelBuilder ob)
         {
-            ob.Entity<Clinician>().HasKey(c => new { c.FirstName, c.LastName });
+            ob.Entity<Clinician>().HasKey(c => c.ClinicianId);
 
             ob.Entity<ClinicRoom>().HasKey(cr => cr.RoomId);
 

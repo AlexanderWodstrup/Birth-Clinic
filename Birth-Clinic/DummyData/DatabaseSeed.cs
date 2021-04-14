@@ -54,6 +54,7 @@ namespace Birth_Clinic.DummyData
 
         public void AddWorkers(AppDbContext context)
         {
+            IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
             //10 Midwifes
             for (int i = 0; i < 10; i++)
             {
@@ -63,18 +64,59 @@ namespace Birth_Clinic.DummyData
                     LastName = randomLastName(),
                     Salary = 10000
                 };
-                context.Clinicians.Add(Midwife);
+                unitOfWork.Clinicians.Add(Midwife);
             }
             
 
             //20 Nurses
+            for (int i = 0; i < 20; i++)
+            {
+                Clinician Nurse = new Nurse()
+                {
+                    FirstName = randomFirstName(),
+                    LastName = randomLastName(),
+                    Salary = 8000
+                };
+                unitOfWork.Clinicians.Add(Nurse);
+            }
 
             //20 SOSU assitens
+            for (int i = 0; i < 20; i++)
+            {
+                Clinician SOSU = new SOSU_Assistent()
+                {
+                    FirstName = randomFirstName(),
+                    LastName = randomLastName(),
+                    Salary = 10
+                };
+                unitOfWork.Clinicians.Add(SOSU);
+            }
 
             //5 Doctors
+            for (int i = 0; i < 5; i++)
+            {
+                Clinician Doctor = new Doctor()
+                {
+                    FirstName = randomFirstName(),
+                    LastName = randomLastName(),
+                    Salary = 50000
+                };
+                unitOfWork.Clinicians.Add(Doctor);
+            }
 
             //4 Secretary
-            context.SaveChanges();
+            for (int i = 0; i < 4; i++)
+            {
+                Secretary Secretary = new Secretary()
+                {
+                    FirstName = randomFirstName(),
+                    LastName = randomLastName(),
+                    Salary = 2500
+                };
+                unitOfWork.Clinicians.Add(Secretary);
+            }
+
+            unitOfWork.Complete();
             Console.WriteLine("Workers seeded");
             
         }
@@ -86,7 +128,9 @@ namespace Birth_Clinic.DummyData
                 "Storey", "O'Brien", "Easton",
                 "Cohen", "Drew", "Trevino",
                 "Rivera", "Stout", "Manning",
-                "Legge", "Hansen", "Healy"
+                "Legge", "Hansen", "Healy",
+                "Larsen", "Flynn", "Brady",
+                "Yang", "Ford", "Shepherd"
             };
             var rand = new Random();
 
@@ -99,7 +143,9 @@ namespace Birth_Clinic.DummyData
                 "Mercy", "Jovan", "Cassius",
                 "Kara", "Roberto", "Brandan",
                 "Maisha", "Scarlette", "Frank",
-                "Peter", "Angelina", "Linda"
+                "Peter", "Angelina", "Linda",
+                "Lylah", "Louie", "Indiana",
+                "Jimmy", "Eli", "Amalia"
             };
             var rand = new Random();
 

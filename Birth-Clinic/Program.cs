@@ -30,7 +30,7 @@ namespace Birth_Clinic
                         case "Seed" or "seed":
                             Console.Clear();
                             Seeder.AddRooms(context);
-                            //Seeder.AddWorkers(context);
+                            Seeder.AddWorkers(context);
                             break;
                         case "Clear" or "clear":
                             Console.Clear();

@@ -32,20 +32,23 @@ namespace Birth_Clinic.Display
                     Console.WriteLine("All room listed");
                     break;
                 case "MaternityRoom":
-                    rooms = unitOfWork.Rooms.GetMatenityRooms();
-                    foreach (var room in rooms)
+                    var MaternityRooms = unitOfWork.Rooms.GetMatenityRooms();
+                    foreach (var MaternityRoom in MaternityRooms)
                     {
-                        Console.WriteLine(room);
+                        Console.WriteLine(MaternityRoom);
                     }
                     Console.WriteLine("All room listed");
                     break;
                 case "RestRoom":
-                    rooms = unitOfWork.Rooms.GetRestRooms();
-                    foreach (var room in rooms)
+                    var RestRooms = unitOfWork.Rooms.GetRestRooms();
+                    foreach (var RestRoom in RestRooms)
                     {
-                        Console.WriteLine(room);
+                        Console.WriteLine(RestRoom);
                     }
                     Console.WriteLine("All room listed");
+                    break;
+                default:
+                    Console.WriteLine("Invalid room");
                     break;
             }
         }

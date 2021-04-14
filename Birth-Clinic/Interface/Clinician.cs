@@ -9,6 +9,7 @@ namespace Birth_Clinic.Interface
 {
     public abstract class Clinician
     {
+        public int ClinicianId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public double Salary { get; set; }

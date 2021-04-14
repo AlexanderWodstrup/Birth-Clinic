@@ -10,6 +10,7 @@ namespace Birth_Clinic.UnitOfWork
     public interface IUnitOfWork : IDisposable
     {
         IRoomRepository Rooms { get; }
+        IClinicianRepository Clinicians { get; }
         int Complete();
     }
 }
