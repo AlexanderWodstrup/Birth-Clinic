@@ -21,7 +21,7 @@ namespace Birth_Clinic.DummyData
 
             Parent parent = new Parent()
             {
-                DueDate = new DateTime(2021, 04, 14),
+                DueDate = DateTime.Now,
 
             };
 
@@ -47,7 +47,7 @@ namespace Birth_Clinic.DummyData
 
             Parent parent2 = new Parent()
             {
-                DueDate = new DateTime(2021, 04, 17),
+                DueDate = DateTime.Now.AddDays(3)
 
             };
 
@@ -72,7 +72,7 @@ namespace Birth_Clinic.DummyData
 
             Parent parent3 = new Parent()
             {
-                DueDate = new DateTime(2021, 07, 20),
+                DueDate = DateTime.Now.AddDays(5),
 
             };
 
@@ -97,7 +97,7 @@ namespace Birth_Clinic.DummyData
 
             Parent parent4 = new Parent()
             {
-                DueDate = new DateTime(2021, 04, 16),
+                DueDate = DateTime.Now.AddDays(2),
 
             };
 
@@ -169,7 +169,8 @@ namespace Birth_Clinic.DummyData
                 {
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
-                    Salary = 10000
+                    Salary = 10000,
+                    Schedules = randomWorkSchedule(),
                 };
                 unitOfWork.Clinicians.Add(Midwife);
             }
@@ -257,6 +258,29 @@ namespace Birth_Clinic.DummyData
             var rand = new Random();
 
             return FirstNames[rand.Next(FirstNames.Length)];
+        }
+
+        public List<Schedule> randomWorkSchedule()
+        {
+            List<Schedule> schedules = new List<Schedule>()
+            {
+                new Schedule()
+                {
+                    From = DateTime.Now.AddDays(1),
+                    To = DateTime.Now.AddDays(1).AddHours(4),
+                },
+                new Schedule()
+                {
+                    From = DateTime.Now.AddDays(2).AddHours(4),
+                    To = DateTime.Now.AddDays(2).AddHours(12),
+                },
+                new Schedule()
+                {
+                    From = DateTime.Now.AddDays(4),
+                    To = DateTime.Now.AddDays(4).AddHours(6),
+                }
+            };
+            return schedules;
         }
 
         public bool WipeDatabase(bool onlyIfNoDatabase)

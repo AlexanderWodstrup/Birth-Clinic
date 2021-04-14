@@ -33,7 +33,7 @@ namespace Birth_Clinic
                             Console.Clear();
                             display.ShowRooms(context);
                             break;
-                        case "Check" or "Check":
+                        case "Check" or "check":
                             Console.Clear();
                             ClinicFunctions.checkBirth();
                             break;
