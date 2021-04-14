@@ -103,9 +103,9 @@ namespace Birth_Clinic.Display
                             lastTime = s.To;
                         }
 
-                        if (DateTime.Now < s.From && count == 0)
+                        if (DateTime.Now < s.From && count > 0)
                         {
-                            Console.WriteLine("Room: " + room.RoomName + " is available from " + DateTime.Now + " to " + s.From);
+                            Console.WriteLine("Room: " + room.RoomName + " is available from " + lastTime.ToString() + " to " + s.From);
                             lastTime = s.To;
                         }
                         count++;
