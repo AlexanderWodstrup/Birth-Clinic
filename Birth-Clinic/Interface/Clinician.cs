@@ -16,10 +16,6 @@ namespace Birth_Clinic.Interface
         public List<Schedule> Schedules { get; set; }
         public Parent Parent { get; set; }
 
-        //public override string ToString()
-        //{
-        //    return string.Format("Room: {0}.", RoomName);
-        //}
-
+        
     }
 }

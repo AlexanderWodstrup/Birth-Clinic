@@ -23,13 +23,11 @@ namespace Birth_Clinic.DummyData
             using var context = new AppDbContext();
             var rand = new Random();
 
-
             Parent parent = new Parent()
             {
                 DueDate = DateTime.Now.AddMinutes(10),
                 Clinicians = availableClinicians(DateTime.Now.AddMinutes(10), context),
                 ClinicRooms = availableBirthRoom(DateTime.Now.AddMinutes(10),context),
-                //ClinicRooms = //Lav function der tjekker fra DueDate(-1 time) til from og ser om der er et 4 timers interval hvor der kan tilføjes en parrent? hvis ikke så kig på næste birth room osv osv. hvis ikke der er plads find det birth room der er tættest på duedate
             };
 
             Father newFather = new Father()
@@ -46,6 +44,7 @@ namespace Birth_Clinic.DummyData
                 LastName = "Design",
                 Parent = parent,
             };
+
             parent.Father = newFather;
             parent.Mother = newMother;
             context.Add(newFather);
@@ -117,12 +116,6 @@ namespace Birth_Clinic.DummyData
 
             };
 
-            //Father newFather4 = new Father()
-            //{
-            //    FirstName = "August",
-            //    LastName = "Andersen",
-            //    Parent = parent4,
-            //};
 
             Mother newMother4 = new Mother()
             {
@@ -269,9 +262,6 @@ namespace Birth_Clinic.DummyData
                 {
                     foreach (var v in b.Schedules.OrderByDescending(c => c.ScheduleId))
                     {
-
-                        // DueDate = d. 14 kl 12.
-                        // Schedule = d. 14 kl 10. til 16.
 
                         if (v.From < DueDate && v.To >= DueDate)
                         {
