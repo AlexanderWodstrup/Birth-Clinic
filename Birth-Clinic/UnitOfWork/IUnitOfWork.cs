@@ -12,6 +12,7 @@ namespace Birth_Clinic.UnitOfWork
         IRoomRepository Rooms { get; }
         IClinicianRepository Clinicians { get; }
         IParentRepository Parents { get; }
+        IScheduleRepository Schedules { get; }
         int Complete();
     }
 }

@@ -52,7 +52,7 @@ namespace Birth_Clinic.DummyData
             context.Add(newMother);
             context.Add(parent);
 
-            var date2 = DateTime.Now.AddDays(3).AddHours(rand.Next(1, 24));
+            var date2 = DateTime.Now.AddMinutes(10);
             Parent parent2 = new Parent()
             {
                 DueDate = date2,
@@ -80,7 +80,7 @@ namespace Birth_Clinic.DummyData
             context.Add(newMother2);
             context.Add(parent2);
 
-            var date3 = DateTime.Now.AddDays(5).AddHours(rand.Next(1, 24));
+            var date3 = DateTime.Now.AddMinutes(10);
             Parent parent3 = new Parent()
             {
                 DueDate = date3,
@@ -108,7 +108,7 @@ namespace Birth_Clinic.DummyData
             context.Add(newMother3);
             context.Add(parent3);
 
-            var date4 = DateTime.Now.AddDays(2).AddHours(rand.Next(1, 24));
+            var date4 = DateTime.Now.AddMinutes(10);
             Parent parent4 = new Parent()
             {
                 DueDate = date4,
@@ -258,7 +258,7 @@ namespace Birth_Clinic.DummyData
         {
             IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
 
-            var birthroom = unitOfWork.Rooms.GetRoomsWithSchedule().Where(c => c is BirthRoom);
+            var birthroom = unitOfWork.Rooms.GetRoomsWithSchedule().Where(c => c is BirthRoom).ToList();
 
             List<ClinicRoom> newBirtRooms = new List<ClinicRoom>();
 
@@ -268,24 +268,38 @@ namespace Birth_Clinic.DummyData
             {
                 foreach (var v in b.Schedules)
                 {
-
+                    var total = b.Schedules.Count;
                     // DueDate = d. 14 kl 12.
                     // Schedule = d. 14 kl 10. til 16.
 
-                    if (v.From < DueDate && v.To >= DueDate)
+                    if (v.From < DueDate && v.To > DueDate)
                     {
+                        
                     }
-                    else if (count == 0)
+                    else if (count == total)
                     {
-                        b.Schedules.Add(new Schedule() {From = DueDate, To = DueDate.AddHours(23)});
-                        unitOfWork.Complete();
                         newBirtRooms.Add(b);
                         count++;
                     }
+
+                    count++;
                 }
             }
-
+            AddSchedule(context,newBirtRooms[1],DueDate);
             return newBirtRooms;
+        }
+
+        public void AddSchedule(AppDbContext context, ClinicRoom room, DateTime DueDate)
+        {
+            IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
+            Schedule tmp = new Schedule()
+            {
+                ClinicRoom = room,
+                From = DueDate.AddDays(-1000),
+                To = DueDate.AddDays(1000)
+            };
+            unitOfWork.Schedules.Add(tmp);
+            unitOfWork.Complete();
         }
         public List<Clinician> availableClinicians(DateTime DueDate, AppDbContext context)
         {
@@ -463,7 +477,30 @@ namespace Birth_Clinic.DummyData
         public List<Schedule> randomWorkSchedule(int i, string worker)
         {
             int startWorkTime;
-            if (i <= 2)
+            int morning;
+            int midday;
+            if (worker == "midwife")
+            {
+                morning = 3;
+                midday = 6;
+            }
+            else if (worker == "doctor")
+            {
+                morning = 1;
+                midday = 1;
+            }
+            else if (worker == "secretary")
+            {
+                morning = 1;
+                midday = 0;
+            }
+            else
+            {
+                morning = 6;
+                midday = 12;
+            }
+
+            if (i <= morning)
             {
                 startWorkTime = 8;
             }
