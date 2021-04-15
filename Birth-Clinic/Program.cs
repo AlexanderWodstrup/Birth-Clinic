@@ -42,7 +42,7 @@ namespace Birth_Clinic
                             break;
                         case "Ongoing" or "ongoing":
                             Console.Clear();
-                            display.ShowOnGoingBirths(context);
+                            ClinicFunctions.ShowOngoingBirths();
                             break;
                         case "Check" or "check":
                             Console.Clear();

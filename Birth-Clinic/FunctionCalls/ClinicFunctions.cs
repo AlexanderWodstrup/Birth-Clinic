@@ -34,5 +34,37 @@ namespace Birth_Clinic.FunctionCalls
             }
         }
 
+        public static void ShowOngoingBirths()
+        {
+            using var context = new AppDbContext();
+
+            var parents = context.Parents
+                .Include(f => f.Father)
+                .Include(m => m.Mother)
+                .Include(c => c.Clinicians)
+                .Include(cr => cr.ClinicRooms)
+                .Where(d => d.DueDate >= DateTime.Now && d.DueDate < DateTime.Now.AddHours(1))
+                .OrderBy(p => p.DueDate.Date);
+
+            foreach (var parent in parents)
+            {
+                Console.WriteLine("Mother: " + parent.Mother.FirstName + " " + parent.Mother.LastName);
+                Console.WriteLine("Father: " + parent.Father.FirstName + " " + parent.Father.LastName);
+                Console.WriteLine("DueDate: " + parent.DueDate);
+                foreach (var c in parent.ClinicRooms)
+                {
+                    Console.WriteLine("Birthroom: " + c.RoomName);
+                }
+                Console.Write("Clinicians: ");
+                foreach (var c in parent.Clinicians)
+                {
+                    Console.Write(c.ToString().Replace("Birth_Clinic.Models.", "") + ", Name: " + c.FirstName + " " + c.LastName + ", ");
+                }
+            }
+
+           
+
+        }
+
     }
 }
