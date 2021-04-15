@@ -43,9 +43,7 @@ Commands available:
 
 Udfordringer med opgaven:
 	
-	Grundet udfordringer med opgaven samt tidspres, har det ikke været muligt at implementere samtlige views. Det er tilstræbt at muliggøre de tre første views,
-	mens de to sidste ikke har været mulige at implementere. Derudover har vi statisk defineret parents, så disse er altså ikke dynamisk tilføjet - igen for at 
-	muliggøre en eksekvering af programmet i forhold til at opnå så mange views som muligt.
+Grundet udfordringer med opgaven samt tidspres, har det ikke været muligt at implementere samtlige views. Det er tilstræbt at muliggøre de tre første views, mens de to sidste ikke har været mulige at implementere. Derudover har vi statisk defineret parents, så disse er altså ikke dynamisk tilføjet - igen for at muliggøre en eksekvering af programmet i forhold til at opnå så mange views som muligt.
 
 
 
