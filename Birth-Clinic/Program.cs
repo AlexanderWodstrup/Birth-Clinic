@@ -42,11 +42,12 @@ namespace Birth_Clinic
                             break;
                         case "Ongoing" or "ongoing":
                             Console.Clear();
-                            ClinicFunctions.ShowOngoingBirths();
+                            display.ShowOngoingBirths();
+                            
                             break;
                         case "Check" or "check":
                             Console.Clear();
-                            ClinicFunctions.checkBirth();
+                            display.checkBirth();
                             break;
                         case "Seed" or "seed":
                             Console.Clear();

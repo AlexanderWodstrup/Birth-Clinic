@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Birth_Clinic.Data;
 using Birth_Clinic.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
 
 namespace Birth_Clinic.Display
 {
@@ -13,7 +14,7 @@ namespace Birth_Clinic.Display
         public void ShowRooms(AppDbContext context)
         {
             IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
-            
+
             Console.WriteLine("What room are you searching for?");
             Console.WriteLine("Options:");
             Console.WriteLine("BirthRoom");
@@ -30,6 +31,7 @@ namespace Birth_Clinic.Display
                     {
                         Console.WriteLine(BirthRoom);
                     }
+
                     Console.WriteLine("All room listed");
                     break;
                 case "MaternityRoom":
@@ -39,6 +41,7 @@ namespace Birth_Clinic.Display
                     {
                         Console.WriteLine(MaternityRoom);
                     }
+
                     Console.WriteLine("All room listed");
                     break;
                 case "RestRoom":
@@ -48,6 +51,7 @@ namespace Birth_Clinic.Display
                     {
                         Console.WriteLine(RestRoom);
                     }
+
                     Console.WriteLine("All room listed");
                     break;
                 default:
@@ -55,7 +59,7 @@ namespace Birth_Clinic.Display
                     Console.WriteLine("Invalid room");
                     break;
             }
-            
+
         }
 
         public void ShowClinicianAvailability(AppDbContext context)
@@ -71,14 +75,15 @@ namespace Birth_Clinic.Display
                     if (s.To < DateTime.Now.AddDays(5))
                     {
                         Console.WriteLine(
-                            "Type: " + clinicianWorking.ToString().Replace("Birth_Clinic.Models.", "") 
-                                     + " Name: " + clinicianWorking.FirstName + " " + clinicianWorking.LastName + 
+                            "Type: " + clinicianWorking.ToString().Replace("Birth_Clinic.Models.", "")
+                                     + " Name: " + clinicianWorking.FirstName + " " + clinicianWorking.LastName +
                                      " Date: " + s.From + " - " + s.To
                         );
                     }
                 }
-                
+
             }
+
             Console.WriteLine();
             Console.WriteLine("All clinicians who's at work the five days and their schedules");
         }
@@ -92,45 +97,93 @@ namespace Birth_Clinic.Display
             {
                 var count = 0;
                 var total = room.Schedules.Count;
-                
-                foreach (var s in room.Schedules.Where(s => s.From >= DateTime.Now.Date && s.To < DateTime.Now.AddDays(5)).OrderBy(f => f.From.Date.Hour))
+
+                foreach (var s in room.Schedules
+                    .Where(s => s.From >= DateTime.Now.Date && s.To < DateTime.Now.AddDays(5))
+                    .OrderBy(f => f.From.Date.Hour))
                 {
                     if (DateTime.Now < s.From && count == 0 && s.From <= DateTime.Now.AddDays(5))
                     {
-                        Console.WriteLine("Room: " + room.RoomName + " is available from " + DateTime.Now + " to " + s.From);
+                        Console.WriteLine("Room: " + room.RoomName + " is available from " + DateTime.Now + " to " +
+                                          s.From);
                         lastTime = s.To;
                         count++;
                     }
-                    else if(s.From < DateTime.Now.AddDays(5))
+                    else if (s.From < DateTime.Now.AddDays(5))
                     {
-                        Console.WriteLine("Room: " + room.RoomName + " is available from " + lastTime + " to " + s.From);
+                        Console.WriteLine("Room: " + room.RoomName + " is available from " + lastTime + " to " +
+                                          s.From);
                         lastTime = s.To;
                         count++;
                     }
 
-                    if (count == total) 
+                    if (count == total)
                     {
                         Console.WriteLine("Room: " + room.RoomName + " is available from " + lastTime + " to TBD.");
                     }
-                    
+
                 }
             }
         }
 
-        public void ShowOnGoingBirths(AppDbContext context)
+        public void checkBirth()
         {
-            IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
-            var Parents = unitOfWork.Parents.GetOnGoingBirths();
-            Console.WriteLine("DueDates within the next 1 hour");
-            foreach (var parent in Parents)
+            using var context = new AppDbContext();
+
+            var parents = context.Parents
+                .Include(f => f.Father)
+                .Include(m => m.Mother)
+                .Where(d => d.DueDate >= DateTime.Now.Date && d.DueDate < DateTime.Now.AddDays(3))
+                .OrderBy(p => p.DueDate.Date);
+
+            Console.WriteLine("Incoming duedates in the next three days: ");
+            foreach (var p in parents)
             {
-                if (DateTime.Now.AddHours(1) >= parent.DueDate)
+                if (p.Father != null)
                 {
-                    Console.WriteLine("Mother: " + parent.Mother.FirstName + " " + parent.Mother.LastName);
-                    Console.WriteLine("Father: " + parent.Father.FirstName + " " + parent.Father.LastName);
-                    Console.WriteLine("DueDate: " + parent.DueDate);
+                    Console.WriteLine(
+                        $"{p.DueDate.ToString("dd/MM/yyyy")}, Fathers name is {p.Father.FirstName} and Mothers name is {p.Mother.FirstName}");
+                }
+                else
+                {
+                    Console.WriteLine(
+                        $"{p.DueDate.ToString("dd/MM/yyyy")}, There is no father and Mothers name is {p.Mother.FirstName}");
                 }
             }
+        }
+
+        public void ShowOngoingBirths()
+        {
+            using var context = new AppDbContext();
+
+            var parents = context.Parents
+                .Include(f => f.Father)
+                .Include(m => m.Mother)
+                .Include(c => c.Clinicians)
+                .Include(cr => cr.ClinicRooms)
+                .Where(d => d.DueDate >= DateTime.Now && d.DueDate < DateTime.Now.AddHours(1))
+                .OrderBy(p => p.DueDate.Date);
+
+            Console.WriteLine("Ongoing births:");
+
+            foreach (var parent in parents)
+            {
+                Console.WriteLine("Mother: " + parent.Mother.FirstName + " " + parent.Mother.LastName);
+                Console.WriteLine("Father: " + parent.Father.FirstName + " " + parent.Father.LastName);
+                Console.WriteLine("DueDate: " + parent.DueDate);
+                foreach (var c in parent.ClinicRooms)
+                {
+                    Console.WriteLine("Birthroom: " + c.RoomName);
+                }
+
+                Console.Write("Clinicians: ");
+                foreach (var c in parent.Clinicians)
+                {
+                    Console.Write(c.ToString().Replace("Birth_Clinic.Models.", "") + ", Name: " + c.FirstName + " " +
+                                  c.LastName + ", ");
+                }
+            }
+
         }
     }
 }
