@@ -30,7 +30,8 @@ namespace Birth_Clinic.Data
                 .WithOne(f => f.Parent);
 
 
-            // Skriv i rapport/kode, at det kun virkede med dette hack
+            // Virker kun med dette hack
+
             ob.Entity<BirthRoom>();
             ob.Entity<MaternityRoom>();
             ob.Entity<RestRoom>();
