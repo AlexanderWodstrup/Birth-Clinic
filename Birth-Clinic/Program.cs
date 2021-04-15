@@ -22,7 +22,7 @@ namespace Birth_Clinic
                     Console.WriteLine("Commands:");
                     Console.WriteLine("List    ::: List Rooms");
                     Console.WriteLine("CW      ::: See alle clinician working times");
-                    Console.WriteLine("Ongoing ::: Births which is dou within the hour");
+                    Console.WriteLine("Ongoing ::: Births which is due within the hour");
                     Console.WriteLine("Check   ::: Checks planned births for the next 3 days");
                     Console.WriteLine("Clear   ::: Clear database");
                     Console.WriteLine("Seed    ::: Seed database with dummydata");

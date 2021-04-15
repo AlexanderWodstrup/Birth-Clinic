@@ -46,6 +46,8 @@ namespace Birth_Clinic.FunctionCalls
                 .Where(d => d.DueDate >= DateTime.Now && d.DueDate < DateTime.Now.AddHours(1))
                 .OrderBy(p => p.DueDate.Date);
 
+                Console.WriteLine("Ongoing births:");
+
             foreach (var parent in parents)
             {
                 Console.WriteLine("Mother: " + parent.Mother.FirstName + " " + parent.Mother.LastName);
