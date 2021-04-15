@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Birth_Clinic.Migrations
 {
-    public partial class initialcreate : Migration
+    public partial class MergeMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,8 +13,6 @@ namespace Birth_Clinic.Migrations
                 {
                     ParentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MotherName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FatherName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -26,15 +24,17 @@ namespace Birth_Clinic.Migrations
                 name: "Clinicians",
                 columns: table => new
                 {
-                    FirstName = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClinicianId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Salary = table.Column<double>(type: "float", nullable: false),
                     ParentId = table.Column<int>(type: "int", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clinicians", x => new { x.FirstName, x.LastName });
+                    table.PrimaryKey("PK_Clinicians", x => x.ClinicianId);
                     table.ForeignKey(
                         name: "FK_Clinicians_Parents_ParentId",
                         column: x => x.ParentId,
@@ -47,13 +47,15 @@ namespace Birth_Clinic.Migrations
                 name: "Father",
                 columns: table => new
                 {
-                    FirstName = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FatherId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ParentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Father", x => new { x.FirstName, x.LastName });
+                    table.PrimaryKey("PK_Father", x => x.FatherId);
                     table.ForeignKey(
                         name: "FK_Father_Parents_ParentId",
                         column: x => x.ParentId,
@@ -66,13 +68,15 @@ namespace Birth_Clinic.Migrations
                 name: "Mother",
                 columns: table => new
                 {
-                    FirstName = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MotherId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ParentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Mother", x => new { x.FirstName, x.LastName });
+                    table.PrimaryKey("PK_Mother", x => x.MotherId);
                     table.ForeignKey(
                         name: "FK_Mother_Parents_ParentId",
                         column: x => x.ParentId,
@@ -85,7 +89,7 @@ namespace Birth_Clinic.Migrations
                 name: "Rooms",
                 columns: table => new
                 {
-                    RoomId = table.Column<int>(type: "int", nullable: false)
+                    ClinicRoomId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoomName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ParentId = table.Column<int>(type: "int", nullable: true),
@@ -93,7 +97,7 @@ namespace Birth_Clinic.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rooms", x => x.RoomId);
+                    table.PrimaryKey("PK_Rooms", x => x.ClinicRoomId);
                     table.ForeignKey(
                         name: "FK_Rooms_Parents_ParentId",
                         column: x => x.ParentId,
@@ -110,24 +114,23 @@ namespace Birth_Clinic.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     From = table.Column<DateTime>(type: "datetime2", nullable: false),
                     To = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ClinicRoomRoomId = table.Column<int>(type: "int", nullable: true),
-                    ClinicianFirstName = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ClinicianLastName = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    ClinicRoomId = table.Column<int>(type: "int", nullable: true),
+                    ClinicianId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Schedule", x => x.ScheduleId);
                     table.ForeignKey(
-                        name: "FK_Schedule_Clinicians_ClinicianFirstName_ClinicianLastName",
-                        columns: x => new { x.ClinicianFirstName, x.ClinicianLastName },
+                        name: "FK_Schedule_Clinicians_ClinicianId",
+                        column: x => x.ClinicianId,
                         principalTable: "Clinicians",
-                        principalColumns: new[] { "FirstName", "LastName" },
+                        principalColumn: "ClinicianId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Schedule_Rooms_ClinicRoomRoomId",
-                        column: x => x.ClinicRoomRoomId,
+                        name: "FK_Schedule_Rooms_ClinicRoomId",
+                        column: x => x.ClinicRoomId,
                         principalTable: "Rooms",
-                        principalColumn: "RoomId",
+                        principalColumn: "ClinicRoomId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -154,14 +157,14 @@ namespace Birth_Clinic.Migrations
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Schedule_ClinicianFirstName_ClinicianLastName",
+                name: "IX_Schedule_ClinicianId",
                 table: "Schedule",
-                columns: new[] { "ClinicianFirstName", "ClinicianLastName" });
+                column: "ClinicianId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Schedule_ClinicRoomRoomId",
+                name: "IX_Schedule_ClinicRoomId",
                 table: "Schedule",
-                column: "ClinicRoomRoomId");
+                column: "ClinicRoomId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
