@@ -12,12 +12,12 @@ namespace Birth_Clinic.Data
 {
     public class AppDbContext
     {
+        private MongoClient client = new MongoClient("mongodb://localhost:27017");
+        public IMongoDatabase context;
 
-        public IMongoDatabase GetMongoContext()
+        public AppDbContext()
         {
-            var client = new MongoClient("mongodb://localhost:27017");
-            return client.GetDatabase("BirthClinicDb");
-
+            context = client.GetDatabase("BirthClinicDb");
         }
     }
 }

@@ -11,15 +11,16 @@ namespace Birth_Clinic.Repository
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly IMongoDatabase _context;
+        private IMongoDatabase _context;
 
-        public Repository(AppDbContext context)
+        public Repository(AppDbContext tmp)
         {
-            _context = context.GetMongoContext();
+            _context = tmp.context;
         }
 
         public TEntity Get(int id)
         {
+
             return _context.Set<TEntity>().Find(id);
         }
 
@@ -30,7 +31,7 @@ namespace Birth_Clinic.Repository
 
         public void Add(TEntity entity)
         {
-            //Console.WriteLine("Entity added");
+            Console.WriteLine("Entity added");
             _context.Set<TEntity>().Add(entity);
         }
 
