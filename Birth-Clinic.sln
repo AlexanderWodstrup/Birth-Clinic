@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Birth-Clinic", "Birth-Clinic\Birth-Clinic.csproj", "{B98301D2-FB64-4687-B4EF-3BC93E518C95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Birth-Clinic", "Birth-Clinic\Birth-Clinic.csproj", "{B98301D2-FB64-4687-B4EF-3BC93E518C95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Birth-Clinic-Mongo", "Birth-Clinic-Mongo\Birth-Clinic-Mongo.csproj", "{53192AB2-7559-410B-BE2B-0213B97490BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B98301D2-FB64-4687-B4EF-3BC93E518C95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B98301D2-FB64-4687-B4EF-3BC93E518C95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B98301D2-FB64-4687-B4EF-3BC93E518C95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53192AB2-7559-410B-BE2B-0213B97490BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53192AB2-7559-410B-BE2B-0213B97490BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53192AB2-7559-410B-BE2B-0213B97490BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53192AB2-7559-410B-BE2B-0213B97490BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
