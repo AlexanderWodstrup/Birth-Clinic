@@ -8,9 +8,6 @@ namespace Birth_Clinic.Models
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-        public int FatherId { get; set; }   
-        [ForeignKey("ParentId")]
-        public int ParentId { get; set; }
-        public Parent Parent { get; set; }
+
     }
 }

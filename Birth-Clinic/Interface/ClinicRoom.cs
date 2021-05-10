@@ -9,7 +9,7 @@ namespace Birth_Clinic.Interface
         public string RoomName { get; set; }
         public int ClinicRoomId { get; set; }
         public List<Schedule> Schedules { get; set; }
-        public Parent Parent { get; set; }
+        public List<Parent> Parent { get; set; }
 
         public override string ToString()
         {

@@ -5,13 +5,9 @@ namespace Birth_Clinic.Models
 {
     public class Child
     {
-        [Key]
-        public int ChildId { get; set; }
-
-        public Parent Parents { get; set; }
-
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
 
-        public Birth Birth { get; set; }
     }
 }
