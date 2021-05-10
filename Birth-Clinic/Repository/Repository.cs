@@ -5,16 +5,17 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Birth_Clinic.Data;
+using MongoDB.Driver;
 
 namespace Birth_Clinic.Repository
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly AppDbContext _context;
+        protected readonly IMongoDatabase _context;
 
         public Repository(AppDbContext context)
         {
-            _context = context;
+            _context = context.GetMongoContext();
         }
 
         public TEntity Get(int id)
