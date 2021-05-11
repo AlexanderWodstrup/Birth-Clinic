@@ -61,20 +61,18 @@ namespace Birth_Clinic.DummyData
             {
                 FirstName = "Alexander",
                 LastName = "Wodstrup",
-                Parent = parent2,
+                
             };
 
             Mother newMother2 = new Mother()
             {
                 FirstName = "Ursula",
                 LastName = "Flemmingsen",
-                Parent = parent2,
             };
             parent2.Father = newFather2;
             parent2.Mother = newMother2;
-            context.Add(newFather2);
-            context.Add(newMother2);
-            context.Add(parent2);
+
+            collection.InsertOne(parent2);
 
             var date3 = DateTime.Now.AddDays(2);
             Parent parent3 = new Parent()
@@ -89,20 +87,17 @@ namespace Birth_Clinic.DummyData
             {
                 FirstName = "Palle",
                 LastName = "Nielsen",
-                Parent = parent3,
             };
 
             Mother newMother3 = new Mother()
             {
                 FirstName = "Francesca",
                 LastName = "Musollini",
-                Parent = parent3,
             };
             parent3.Father = newFather3;
             parent3.Mother = newMother3;
-            context.Add(newFather3);
-            context.Add(newMother3);
-            context.Add(parent3);
+
+            collection.InsertOne(parent3);
 
             var date4 = DateTime.Now.AddDays(3);
             Parent parent4 = new Parent()
@@ -110,22 +105,18 @@ namespace Birth_Clinic.DummyData
                 DueDate = date4,
                 Clinicians = availableClinicians(date4, context),
                 ClinicRooms = availableBirthRoom(date4, context),
-
             };
-
 
             Mother newMother4 = new Mother()
             {
                 FirstName = "Karen",
                 LastName = "Ingemann",
-                Parent = parent4,
             };
-            //parent4.Father = newFather4;
+            
             parent4.Mother = newMother4;
-            //context.Add(newFather4);
-            context.Add(newMother4);
-            context.Add(parent4);
-            context.SaveChanges();
+            
+            collection.InsertOne(parent4);
+
             Console.WriteLine("Father and Mother seeded");
         }
         public void AddRooms(AppDbContext context)
@@ -239,7 +230,6 @@ namespace Birth_Clinic.DummyData
                 unitOfWork.Clinicians.Add(Secretary);
             }
 
-            unitOfWork.Complete();
             Console.WriteLine("Workers seeded");
             
         }
@@ -273,7 +263,7 @@ namespace Birth_Clinic.DummyData
                                 From = DueDate.AddDays(-1000),
                                 To = DueDate.AddDays(1000),
                             };
-                            b.Schedules.Add(newSchedule);
+                            b.Schedules.Add(newSchedule); //hmm?
                             
                         }
 
@@ -538,18 +528,18 @@ namespace Birth_Clinic.DummyData
 
         }
 
-        public bool WipeDatabase(bool onlyIfNoDatabase)
-        {
-            using (var db = new AppDbContext())
-            {
-                if (onlyIfNoDatabase && (db.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
-                    return false;
+        //public bool WipeDatabase(bool onlyIfNoDatabase)
+        //{
+        //    using (var db = new AppDbContext())
+        //    {
+        //        if (onlyIfNoDatabase && (db.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
+        //            return false;
 
-                db.Database.EnsureDeleted();
-                db.Database.Migrate();
-                Console.WriteLine("Database cleared");
-            }
-            return true;
-        }
+        //        db.Database.EnsureDeleted();
+        //        db.Database.Migrate();
+        //        Console.WriteLine("Database cleared");
+        //    }
+        //    return true;
+        //}
     }
 }

@@ -56,7 +56,7 @@ namespace Birth_Clinic
                             break;
                         case "Clear" or "clear":
                             Console.Clear();
-                            Seeder.WipeDatabase(false);
+                            //Seeder.WipeDatabase(false);
                             break;
                         case "Exit" or "exit":
                             return;
