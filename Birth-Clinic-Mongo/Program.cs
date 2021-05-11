@@ -1,4 +1,6 @@
 ﻿using System;
+using Birth_Clinic.Models;
+using MongoDB.Driver;
 
 namespace Birth_Clinic_Mongo
 {
@@ -6,7 +8,17 @@ namespace Birth_Clinic_Mongo
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            MongoClient _client = new MongoClient("mongodb://localhost:27017");
+            IMongoDatabase context = _client.GetDatabase("BirthClinicTest-Db");
+
+            var _parents = context.GetCollection<Parent>("Parents");
+
+            var parent = new Parent(
+            {
+                Mother = new Mother({FirstName = "Din",LastName = "Mor",})
+            })
+            
+
         }
     }
 }
