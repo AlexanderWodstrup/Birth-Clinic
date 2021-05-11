@@ -12,5 +12,7 @@ namespace Birth_Clinic.Repository
         public IEnumerable<Clinician> GetCliniciansWorkingTimes();
 
         public List<Clinician> GetCliniciansAtWorkDuringDuedate();
+
+        public void Add(Clinician entity);
     }
 }

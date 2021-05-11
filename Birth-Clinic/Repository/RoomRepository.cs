@@ -41,5 +41,37 @@ namespace Birth_Clinic.Repository
             return RoomCollection.Find(r => true).ToList();
             //return _context.Rooms.Include(r => r.Schedules).ToList();
         }
+
+        //public TEntity Get(int id)
+        //{
+
+        //    return _context.Set<TEntity>().Find(id);
+        //}
+
+        //public IEnumerable<TEntity> GetAll()
+        //{
+        //    return _context.Set<TEntity>().ToList();
+        //}
+
+        public void Add(ClinicRoom entity)
+        {
+            Console.WriteLine("Entity added");
+            RoomCollection.InsertOne(entity);
+        }
+
+        //public void Remove(TEntity entity)
+        //{
+        //    _context.Set<TEntity>().Remove(entity);
+        //}
+
+        //public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
+        //{
+        //    return _context.Set<TEntity>().Where(predicate);
+        //}
+
+        //public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
+        //{
+        //    return _context.Set<TEntity>().SingleOrDefault(predicate);
+        //}
     }
 }

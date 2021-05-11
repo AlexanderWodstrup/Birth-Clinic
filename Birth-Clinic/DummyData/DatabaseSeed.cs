@@ -141,7 +141,7 @@ namespace Birth_Clinic.DummyData
                 };
                 unitOfWork.Rooms.Add(BirthRoom);
             }
-            unitOfWork.Complete();
+            
 
             //Seeder 22 maternityrooms i databasen
             for (int i = 1; i < 23; i++)
@@ -153,7 +153,7 @@ namespace Birth_Clinic.DummyData
                 };
                 unitOfWork.Rooms.Add(MaternityRoom);
             }
-            unitOfWork.Complete();
+            
 
             //Seeder 5 restrooms i databasen
             for (int i = 1; i < 6; i++)
@@ -165,7 +165,7 @@ namespace Birth_Clinic.DummyData
                 };
                 unitOfWork.Rooms.Add(RestRoom);
             }
-            unitOfWork.Complete();
+            
 
             Console.WriteLine("Rooms seeded");
         }
@@ -257,7 +257,8 @@ namespace Birth_Clinic.DummyData
                 var count = 0;
                 foreach (var b in birthroom)
                 {
-                    foreach (var v in b.Schedules.OrderByDescending(c => c.ScheduleId))
+                    //var v in b.Schedules.OrderByDescending(c => c.ScheduleId)
+                    foreach (var v in b.Schedules)
                     {
 
                         if (v.From < DueDate && v.To >= DueDate)
@@ -273,7 +274,7 @@ namespace Birth_Clinic.DummyData
                                 To = DueDate.AddDays(1000),
                             };
                             b.Schedules.Add(newSchedule);
-                            context.SaveChanges();
+                            
                         }
 
                         break;

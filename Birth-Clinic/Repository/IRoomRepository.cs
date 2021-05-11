@@ -13,5 +13,6 @@ namespace Birth_Clinic.Repository
         public IEnumerable<ClinicRoom> GetMatenityRooms();
         public IEnumerable<ClinicRoom> GetRestRooms();
         public IEnumerable<ClinicRoom> GetRoomsWithSchedule();
+        public void Add(ClinicRoom entity);
     }
 }
