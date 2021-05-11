@@ -11,4 +11,8 @@
     <PackageReference Include="MongoDB.Driver.Core" Version="2.12.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Birth-Clinic\Birth-Clinic.csproj" />
+  </ItemGroup>
+
 </Project>
