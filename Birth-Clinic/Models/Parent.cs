@@ -19,7 +19,7 @@ namespace Birth_Clinic.Models
         public Father Father { get; set; }
         [BsonElement("Child")]
         public Child Child { get; set; }
-        [BsonElement("DueDate")]
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime DueDate { get; set; }
         public List<Clinician> Clinicians { get; set; }
         public List<ClinicRoom> ClinicRooms { get; set; }

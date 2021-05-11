@@ -44,7 +44,8 @@ namespace Birth_Clinic.DummyData
                 Clinicians = availableClinicians(DateTime.Now.AddMinutes(10), context),
                 ClinicRooms = availableBirthRoom(DateTime.Now.AddMinutes(10), context),
             };
-
+            Console.WriteLine(DateTime.Now);
+            Console.WriteLine(parent.DueDate);
             collection.InsertOne(parent);
 
 
