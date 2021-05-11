@@ -8,29 +8,38 @@ using Birth_Clinic.Interface;
 using Birth_Clinic.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using MongoDB.Driver;
 
 namespace Birth_Clinic.Repository
 {
     public class RoomRepository : Repository<ClinicRoom>, IRoomRepository
     {
-        public RoomRepository(AppDbContext context) : base(context) { }
+        private IMongoCollection<ClinicRoom> RoomCollection;
+        public RoomRepository(AppDbContext context) : base(context)
+        {
+            RoomCollection = context.context.GetCollection<ClinicRoom>("Rooms");
+        }
 
         public IEnumerable<ClinicRoom> GetBirthRooms()
         {
-            return _context.Rooms.Where(r => r is BirthRoom).ToList();
+            return RoomCollection.Find(r => r is BirthRoom == true).ToList();
+            //return _context.Rooms.Where(r => r is BirthRoom).ToList();
         }
         public IEnumerable<ClinicRoom> GetMatenityRooms()
         {
-            return _context.Rooms.Where(r => r is MaternityRoom).ToList();
+            return RoomCollection.Find(r => r is MaternityRoom == true).ToList();
+            //return _context.Rooms.Where(r => r is MaternityRoom).ToList();
         }
         public IEnumerable<ClinicRoom> GetRestRooms()
         {
-            return _context.Rooms.Where(r => r is RestRoom).ToList();
+            return RoomCollection.Find(r => r is RestRoom == true).ToList();
+            //return _context.Rooms.Where(r => r is RestRoom).ToList();
         }
 
         public IEnumerable<ClinicRoom> GetRoomsWithSchedule()
         {
-            return _context.Rooms.Include(r => r.Schedules).ToList();
+            return RoomCollection.Find(r => true).ToList();
+            //return _context.Rooms.Include(r => r.Schedules).ToList();
         }
     }
 }

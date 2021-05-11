@@ -20,36 +20,33 @@ namespace Birth_Clinic.DummyData
     {
         public void AddFatherAndMother()
         {
-            using var context = new AppDbContext();
+            var context = new AppDbContext();
+            var collection = context.context.GetCollection<Parent>("Parents");
             var rand = new Random();
-
-            Parent parent = new Parent()
-            {
-                DueDate = DateTime.Now.AddMinutes(10),
-                Clinicians = availableClinicians(DateTime.Now.AddMinutes(10), context),
-                ClinicRooms = availableBirthRoom(DateTime.Now.AddMinutes(10),context),
-            };
 
             Father newFather = new Father()
             {
                 FirstName = "Peter",
                 LastName = "Wann",
-                Parent = parent,
             };
-            
 
             Mother newMother = new Mother()
             {
                 FirstName = "Line",
                 LastName = "Design",
-                Parent = parent,
             };
 
-            parent.Father = newFather;
-            parent.Mother = newMother;
-            context.Add(newFather);
-            context.Add(newMother);
-            context.Add(parent);
+            Parent parent = new Parent()
+            {
+                Father = newFather,
+                Mother = newMother,
+                DueDate = DateTime.Now.AddMinutes(10),
+                Clinicians = availableClinicians(DateTime.Now.AddMinutes(10), context),
+                ClinicRooms = availableBirthRoom(DateTime.Now.AddMinutes(10), context),
+            };
+
+            collection.InsertOne(parent);
+
 
             var date2 = DateTime.Now.AddDays(1);
             Parent parent2 = new Parent()
@@ -307,15 +304,13 @@ namespace Birth_Clinic.DummyData
                 var count = 0;
                 foreach (var m in midwife)
                 {
-
-                    foreach (var v in m.Schedules.OrderByDescending(c => c.ScheduleId))
+                    foreach (var v in m.Schedules)
                     {
                         if (v.From < DueDate && v.To >= DueDate && count == 0)
                         {
                             newClinicians.Add(m);
                             count++;
                         }
-
                     }
                 }
 
@@ -323,7 +318,7 @@ namespace Birth_Clinic.DummyData
                 foreach (var m in doctor)
                 {
 
-                    foreach (var v in m.Schedules.OrderByDescending(c => c.ScheduleId))
+                    foreach (var v in m.Schedules)
                     {
                         if (v.From < DueDate && v.To >= DueDate && count == 0)
                         {
@@ -338,7 +333,7 @@ namespace Birth_Clinic.DummyData
                 foreach (var m in nurse)
                 {
 
-                    foreach (var v in m.Schedules.OrderByDescending(c => c.ScheduleId))
+                    foreach (var v in m.Schedules)
                     {
                         if (v.From < DueDate && v.To >= DueDate && count == 0)
                         {
@@ -353,7 +348,7 @@ namespace Birth_Clinic.DummyData
                 foreach (var m in sosu)
                 {
 
-                    foreach (var v in m.Schedules.OrderByDescending(c => c.ScheduleId))
+                    foreach (var v in m.Schedules)
                     {
                         if (v.From < DueDate && v.To >= DueDate && count == 0)
                         {
