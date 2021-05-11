@@ -18,9 +18,9 @@ namespace Birth_Clinic.DummyData
 {
     public class DatabaseSeed
     {
-        public void AddFatherAndMother()
+        public void AddFatherAndMother(AppDbContext context)
         {
-            var context = new AppDbContext();
+            
             var collection = context.context.GetCollection<Parent>("Parents");
             var rand = new Random();
 
@@ -61,7 +61,7 @@ namespace Birth_Clinic.DummyData
             {
                 FirstName = "Alexander",
                 LastName = "Wodstrup",
-                
+
             };
 
             Mother newMother2 = new Mother()
@@ -112,9 +112,9 @@ namespace Birth_Clinic.DummyData
                 FirstName = "Karen",
                 LastName = "Ingemann",
             };
-            
+
             parent4.Mother = newMother4;
-            
+
             collection.InsertOne(parent4);
 
             Console.WriteLine("Father and Mother seeded");
@@ -132,7 +132,7 @@ namespace Birth_Clinic.DummyData
                 };
                 unitOfWork.Rooms.Add(BirthRoom);
             }
-            
+
 
             //Seeder 22 maternityrooms i databasen
             for (int i = 1; i < 23; i++)
@@ -144,7 +144,7 @@ namespace Birth_Clinic.DummyData
                 };
                 unitOfWork.Rooms.Add(MaternityRoom);
             }
-            
+
 
             //Seeder 5 restrooms i databasen
             for (int i = 1; i < 6; i++)
@@ -156,7 +156,7 @@ namespace Birth_Clinic.DummyData
                 };
                 unitOfWork.Rooms.Add(RestRoom);
             }
-            
+
 
             Console.WriteLine("Rooms seeded");
         }
@@ -176,7 +176,7 @@ namespace Birth_Clinic.DummyData
                 };
                 unitOfWork.Clinicians.Add(Midwife);
             }
-            
+
 
             //20 Nurses
             for (int i = 0; i < 20; i++)
@@ -199,7 +199,7 @@ namespace Birth_Clinic.DummyData
                     FirstName = randomFirstName(),
                     LastName = randomLastName(),
                     Salary = 10,
-                    Schedules = randomWorkSchedule(i,"sosu"),
+                    Schedules = randomWorkSchedule(i, "sosu"),
                 };
                 unitOfWork.Clinicians.Add(SOSU);
             }
@@ -231,7 +231,7 @@ namespace Birth_Clinic.DummyData
             }
 
             Console.WriteLine("Workers seeded");
-            
+
         }
 
         public List<ClinicRoom> availableBirthRoom(DateTime DueDate, AppDbContext context)
@@ -264,7 +264,7 @@ namespace Birth_Clinic.DummyData
                                 To = DueDate.AddDays(1000),
                             };
                             b.Schedules.Add(newSchedule); //hmm?
-                            
+
                         }
 
                         break;
@@ -388,7 +388,7 @@ namespace Birth_Clinic.DummyData
             return FirstNames[rand.Next(FirstNames.Length)];
         }
 
-        
+
         public List<Schedule> randomRestRoomSchedule()
         {
             var rand = new Random();
@@ -431,7 +431,7 @@ namespace Birth_Clinic.DummyData
         public List<Schedule> randomBirthRoomSchedule()
         {
             var rand = new Random();
-            var randomDay = DateTime.Now.AddDays(rand.Next(0, 5)).AddHours(rand.Next(0,24));
+            var randomDay = DateTime.Now.AddDays(rand.Next(0, 5)).AddHours(rand.Next(0, 24));
             List<Schedule> schedules = new List<Schedule>()
             {
 
@@ -454,7 +454,7 @@ namespace Birth_Clinic.DummyData
             return schedules;
         }
 
-        
+
 
 
         public List<Schedule> randomWorkSchedule(int i, string worker)
@@ -528,18 +528,13 @@ namespace Birth_Clinic.DummyData
 
         }
 
-        //public bool WipeDatabase(bool onlyIfNoDatabase)
-        //{
-        //    using (var db = new AppDbContext())
-        //    {
-        //        if (onlyIfNoDatabase && (db.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
-        //            return false;
+        public bool WipeDatabase(AppDbContext db)
+        {
+            db.context.Client.DropDatabase("BirthClinicDb");
+            
+            Console.WriteLine("Database cleared");
 
-        //        db.Database.EnsureDeleted();
-        //        db.Database.Migrate();
-        //        Console.WriteLine("Database cleared");
-        //    }
-        //    return true;
-        //}
+            return true;
+        }
     }
 }

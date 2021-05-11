@@ -7,6 +7,8 @@ using Birth_Clinic.Data;
 using Birth_Clinic.Models;
 using Birth_Clinic.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
 namespace Birth_Clinic.Display
@@ -162,8 +164,14 @@ namespace Birth_Clinic.Display
 
             var parentsCollection = context.context.GetCollection<Parent>("Parents");
 
+            var filter1 =
+                Builders<Parent>.Filter.Lt(x => x.DueDate, DateTime.Now.AddHours(1));
+
+            var filter2 =
+                Builders<Parent>.Filter.Gte(x=>x.DueDate, DateTime.Now);
+
             var parents = parentsCollection
-                .Find(d => d.DueDate >= DateTime.Now && d.DueDate < DateTime.Now.AddHours(1)).ToList();
+                .Find(filter1).ToList();
 
             //var parents = context.Parents
             //    .Include(f => f.Father)
@@ -178,7 +186,11 @@ namespace Birth_Clinic.Display
             foreach (var parent in parents)
             {
                 Console.WriteLine("Mother: " + parent.Mother.FirstName + " " + parent.Mother.LastName);
-                Console.WriteLine("Father: " + parent.Father.FirstName + " " + parent.Father.LastName);
+                if (parent.Father != null)
+                {
+                    Console.WriteLine("Father: " + parent.Father.FirstName + " " + parent.Father.LastName);
+                }
+                
                 Console.WriteLine("DueDate: " + parent.DueDate);
                 foreach (var c in parent.ClinicRooms)
                 {

@@ -9,7 +9,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Birth_Clinic.Interface
 {
-    public abstract class Clinician
+    public class Clinician
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -19,7 +19,5 @@ namespace Birth_Clinic.Interface
         public double Salary { get; set; }
         public List<Schedule> Schedules { get; set; }
         public List<Parent> Parents { get; set; }
-
-        
     }
 }

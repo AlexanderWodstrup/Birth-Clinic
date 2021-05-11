@@ -52,11 +52,11 @@ namespace Birth_Clinic
                         //Console.Clear();
                         Seeder.AddRooms(context);
                         Seeder.AddWorkers(context);
-                        Seeder.AddFatherAndMother();
+                        Seeder.AddFatherAndMother(context);
                         break;
                     case "Clear" or "clear":
                         Console.Clear();
-                        //Seeder.WipeDatabase(false);
+                        Seeder.WipeDatabase(context);
                         break;
                     case "Exit" or "exit":
                         return;

@@ -6,7 +6,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Birth_Clinic.Interface
 {
-    public abstract class ClinicRoom
+    public class ClinicRoom
     {
         public string RoomName { get; set; }
         [BsonId]
