@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Birth_Clinic.Data;
+using Birth_Clinic.Models;
 using Birth_Clinic.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 
 namespace Birth_Clinic.Display
 {
@@ -128,13 +130,15 @@ namespace Birth_Clinic.Display
 
         public void checkBirth()
         {
-            using var context = new AppDbContext();
+            var context = new AppDbContext();
 
-            var parents = context.Parents
-                .Include(f => f.Father)
-                .Include(m => m.Mother)
-                .Where(d => d.DueDate >= DateTime.Now.Date && d.DueDate < DateTime.Now.AddDays(3))
-                .OrderBy(p => p.DueDate.Date);
+            var parentsCollection = context.context.GetCollection<Parent>("Parents");
+
+            var parents = parentsCollection.Find(d =>
+                d.DueDate >= DateTime.Now.Date && d.DueDate < DateTime.Now.AddDays(3) == true).ToList();
+
+
+                //context.Parents.Include(f => f.Father).Include(m => m.Mother).Where(d => d.DueDate >= DateTime.Now.Date && d.DueDate < DateTime.Now.AddDays(3)).OrderBy(p => p.DueDate.Date);
 
             Console.WriteLine("Incoming duedates in the next three days: ");
             foreach (var p in parents)
@@ -154,15 +158,20 @@ namespace Birth_Clinic.Display
 
         public void ShowOngoingBirths()
         {
-            using var context = new AppDbContext();
+            var context = new AppDbContext();
 
-            var parents = context.Parents
-                .Include(f => f.Father)
-                .Include(m => m.Mother)
-                .Include(c => c.Clinicians)
-                .Include(cr => cr.ClinicRooms)
-                .Where(d => d.DueDate >= DateTime.Now && d.DueDate < DateTime.Now.AddHours(1))
-                .OrderBy(p => p.DueDate.Date);
+            var parentsCollection = context.context.GetCollection<Parent>("Parents");
+
+            var parents = parentsCollection
+                .Find(d => d.DueDate >= DateTime.Now && d.DueDate < DateTime.Now.AddHours(1) == true).ToList();
+
+            //var parents = context.Parents
+            //    .Include(f => f.Father)
+            //    .Include(m => m.Mother)
+            //    .Include(c => c.Clinicians)
+            //    .Include(cr => cr.ClinicRooms)
+            //    .Where(d => d.DueDate >= DateTime.Now && d.DueDate < DateTime.Now.AddHours(1))
+            //    .OrderBy(p => p.DueDate.Date);
 
             Console.WriteLine("Ongoing births:");
 
