@@ -14,7 +14,7 @@ namespace Birth_Clinic.Repository
         private IMongoCollection<Clinician> ClinicianCollection;
         public ClinicianRepository(AppDbContext context) : base(context)
         {
-            var ClinicianCollection = context.context.GetCollection<Clinician>("Clinician");
+            ClinicianCollection = context.context.GetCollection<Clinician>("Clinicians");
         }
 
         public IEnumerable<Clinician> GetCliniciansWorkingTimes()

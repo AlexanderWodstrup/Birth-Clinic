@@ -22,17 +22,17 @@ namespace Birth_Clinic.Repository
 
         public IEnumerable<ClinicRoom> GetBirthRooms()
         {
-            return RoomCollection.Find(r => r is BirthRoom == true).ToList();
+            return RoomCollection.Find(r => r is BirthRoom).ToList();
             //return _context.Rooms.Where(r => r is BirthRoom).ToList();
         }
         public IEnumerable<ClinicRoom> GetMatenityRooms()
         {
-            return RoomCollection.Find(r => r is MaternityRoom == true).ToList();
+            return RoomCollection.Find(r => r is MaternityRoom).ToList();
             //return _context.Rooms.Where(r => r is MaternityRoom).ToList();
         }
         public IEnumerable<ClinicRoom> GetRestRooms()
         {
-            return RoomCollection.Find(r => r is RestRoom == true).ToList();
+            return RoomCollection.Find(r => r is RestRoom).ToList();
             //return _context.Rooms.Where(r => r is RestRoom).ToList();
         }
 

@@ -13,7 +13,7 @@ namespace Birth_Clinic.Interface
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public int ClinicianId { get; set; }
+        public string ClinicianId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public double Salary { get; set; }

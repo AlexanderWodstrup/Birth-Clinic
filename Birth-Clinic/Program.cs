@@ -49,7 +49,7 @@ namespace Birth_Clinic
                         display.checkBirth();
                         break;
                     case "Seed" or "seed":
-                        Console.Clear();
+                        //Console.Clear();
                         Seeder.AddRooms(context);
                         Seeder.AddWorkers(context);
                         Seeder.AddFatherAndMother();

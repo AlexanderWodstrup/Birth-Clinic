@@ -135,7 +135,7 @@ namespace Birth_Clinic.Display
             var parentsCollection = context.context.GetCollection<Parent>("Parents");
 
             var parents = parentsCollection.Find(d =>
-                d.DueDate >= DateTime.Now.Date && d.DueDate < DateTime.Now.AddDays(3) == true).ToList();
+                d.DueDate >= DateTime.Now.Date && d.DueDate < DateTime.Now.AddDays(3)).ToList();
 
 
                 //context.Parents.Include(f => f.Father).Include(m => m.Mother).Where(d => d.DueDate >= DateTime.Now.Date && d.DueDate < DateTime.Now.AddDays(3)).OrderBy(p => p.DueDate.Date);
@@ -163,7 +163,7 @@ namespace Birth_Clinic.Display
             var parentsCollection = context.context.GetCollection<Parent>("Parents");
 
             var parents = parentsCollection
-                .Find(d => d.DueDate >= DateTime.Now && d.DueDate < DateTime.Now.AddHours(1) == true).ToList();
+                .Find(d => d.DueDate >= DateTime.Now && d.DueDate < DateTime.Now.AddHours(1)).ToList();
 
             //var parents = context.Parents
             //    .Include(f => f.Father)
