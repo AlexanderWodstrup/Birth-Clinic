@@ -1,15 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Birth_Clinic.Models;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Birth_Clinic.Interface
 {
     public abstract class ClinicRoom
     {
         public string RoomName { get; set; }
-        public int ClinicRoomId { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string ClinicRoomId { get; set; }
         public List<Schedule> Schedules { get; set; }
-        public List<Parent> Parent { get; set; }
+        public List<Parent> Parents { get; set; }
 
         public override string ToString()
         {
