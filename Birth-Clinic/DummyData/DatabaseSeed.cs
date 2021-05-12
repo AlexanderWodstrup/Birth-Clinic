@@ -244,7 +244,7 @@ namespace Birth_Clinic.DummyData
             var birthroom = unitOfWork.Rooms.GetRoomsWithSchedule().Where(c => c is BirthRoom);
 
             List<ClinicRoom> newBirtRooms = new List<ClinicRoom>();
-
+            var rand = new Random();
             var count = 0;
             foreach (var b in birthroom)
             {
@@ -258,12 +258,12 @@ namespace Birth_Clinic.DummyData
                     {
                         count++;
                         newBirtRooms.Add(b);
-                        //var newSchedule = new Schedule()
-                        //{
-                        //    From = DueDate.AddDays(-1000),
-                        //    To = DueDate.AddDays(1000),
-                        //};
-                        //b.Schedules.Add(newSchedule); 
+                        var newSchedule = new Schedule()
+                        {
+                            From = DueDate.AddHours(-1),
+                            To = DueDate.AddHours(rand.Next(2, 24)),
+                        };
+                        b.Schedules.Add(newSchedule);
                     }
                     break;
                 }
