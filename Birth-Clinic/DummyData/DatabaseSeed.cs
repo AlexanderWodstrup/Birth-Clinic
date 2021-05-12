@@ -24,26 +24,15 @@ namespace Birth_Clinic.DummyData
             var collection = context.context.GetCollection<Parent>("Parents");
             var rand = new Random();
 
-            Father newFather = new Father()
-            {
-                FirstName = "Peter",
-                LastName = "Wann",
-            };
-
-            Mother newMother = new Mother()
-            {
-                FirstName = "Line",
-                LastName = "Design",
-            };
-
             Parent parent = new Parent()
             {
-                Father = newFather,
-                Mother = newMother,
+                Father = new Father() { FirstName = "Peter", LastName = "Wann"},
+                Mother = new Mother() { FirstName = "Line", LastName = "Design"},
                 DueDate = DateTime.Now.AddMinutes(10),
-                Clinicians = availableClinicians(DateTime.Now.AddMinutes(10), context),
-                ClinicRooms = availableBirthRoom(DateTime.Now.AddMinutes(10), context),
             };
+            parent.Clinicians = availableClinicians(parent.DueDate, context);
+            parent.ClinicRooms = availableBirthRoom(parent.DueDate, context);
+
             Console.WriteLine(DateTime.Now);
             Console.WriteLine(parent.DueDate);
             collection.InsertOne(parent);
@@ -55,25 +44,12 @@ namespace Birth_Clinic.DummyData
                 DueDate = date2,
                 Clinicians = availableClinicians(date2, context),
                 ClinicRooms = availableBirthRoom(date2, context),
+                Father = new Father() { FirstName = "Alexander", LastName = "Wodstrup"},
+                Mother = new Mother() { FirstName = "Ursula", LastName = "Flemmingsen"},
 
             };
-
-            Father newFather2 = new Father()
-            {
-                FirstName = "Alexander",
-                LastName = "Wodstrup",
-
-            };
-
-            Mother newMother2 = new Mother()
-            {
-                FirstName = "Ursula",
-                LastName = "Flemmingsen",
-            };
-            parent2.Father = newFather2;
-            parent2.Mother = newMother2;
-
             collection.InsertOne(parent2);
+
 
             var date3 = DateTime.Now.AddDays(2);
             Parent parent3 = new Parent()
@@ -81,22 +57,10 @@ namespace Birth_Clinic.DummyData
                 DueDate = date3,
                 Clinicians = availableClinicians(date3, context),
                 ClinicRooms = availableBirthRoom(date3, context),
+                Father = new Father() { FirstName = "Palle", LastName = "Nielsen" },
+                Mother = new Mother() { FirstName = "Francesca", LastName = "Musollini" },
 
             };
-
-            Father newFather3 = new Father()
-            {
-                FirstName = "Palle",
-                LastName = "Nielsen",
-            };
-
-            Mother newMother3 = new Mother()
-            {
-                FirstName = "Francesca",
-                LastName = "Musollini",
-            };
-            parent3.Father = newFather3;
-            parent3.Mother = newMother3;
 
             collection.InsertOne(parent3);
 
@@ -106,20 +70,15 @@ namespace Birth_Clinic.DummyData
                 DueDate = date4,
                 Clinicians = availableClinicians(date4, context),
                 ClinicRooms = availableBirthRoom(date4, context),
+                Mother = new Mother() { FirstName = "Karen", LastName = "Ingemann" },
             };
-
-            Mother newMother4 = new Mother()
-            {
-                FirstName = "Karen",
-                LastName = "Ingemann",
-            };
-
-            parent4.Mother = newMother4;
 
             collection.InsertOne(parent4);
 
             Console.WriteLine("Father and Mother seeded");
         }
+
+
         public void AddRooms(AppDbContext context)
         {
             IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);

@@ -163,9 +163,9 @@ namespace Birth_Clinic.Display
 
             var parentsCollection = context.context.GetCollection<Parent>("Parents");
 
-            var test = parentsCollection.Find(p => p.Father.FirstName == "Peter").FirstOrDefault();
+            //var test = parentsCollection.Find(p => p.Father.FirstName == "Peter").FirstOrDefault();
 
-            Console.WriteLine(test.DueDate);
+            //Console.WriteLine(test.DueDate);
 
 
             var filter1 =
