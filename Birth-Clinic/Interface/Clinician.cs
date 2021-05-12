@@ -18,6 +18,5 @@ namespace Birth_Clinic.Interface
         public string LastName { get; set; }
         public double Salary { get; set; }
         public List<Schedule> Schedules { get; set; }
-        public List<Parent> Parents { get; set; }
     }
 }

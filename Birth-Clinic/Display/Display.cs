@@ -160,34 +160,17 @@ namespace Birth_Clinic.Display
 
         public void ShowOngoingBirths(AppDbContext context)
         {
-
             var parentsCollection = context.context.GetCollection<Parent>("Parents");
-
-            var test = parentsCollection.Find(p => p.Father.FirstName == "Peter").FirstOrDefault();
-
-            Console.WriteLine(test.DueDate);
-
 
             var filter1 =
                 Builders<Parent>.Filter.And(
                     Builders<Parent>.Filter.Lt(x => x.DueDate, DateTime.Now.AddHours(1)),
                     Builders<Parent>.Filter.Gte(x => x.DueDate, DateTime.Now)
                     );
-            
 
             var parents = parentsCollection
                 .Find(filter1).ToList();
-
             
-
-            //var parents = context.Parents
-            //    .Include(f => f.Father)
-            //    .Include(m => m.Mother)
-            //    .Include(c => c.Clinicians)
-            //    .Include(cr => cr.ClinicRooms)
-            //    .Where(d => d.DueDate >= DateTime.Now && d.DueDate < DateTime.Now.AddHours(1))
-            //    .OrderBy(p => p.DueDate.Date);
-
             Console.WriteLine("Ongoing births:");
 
             foreach (var parent in parents)
