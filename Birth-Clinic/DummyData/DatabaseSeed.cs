@@ -33,8 +33,6 @@ namespace Birth_Clinic.DummyData
             parent.Clinicians = availableClinicians(parent.DueDate, context);
             parent.ClinicRooms = availableBirthRoom(parent.DueDate, context);
 
-            Console.WriteLine(DateTime.Now);
-            Console.WriteLine(parent.DueDate);
             collection.InsertOne(parent);
 
 

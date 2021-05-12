@@ -187,10 +187,10 @@ namespace Birth_Clinic.Display
                     Console.WriteLine("Birthroom: " + c.RoomName);
                 }
 
-                Console.Write("Clinicians: ");
+                Console.WriteLine("Clinicians: ");
                 foreach (var c in parent.Clinicians)
                 {
-                    Console.Write(c.ToString().Replace("Birth_Clinic.Models.", "") + ", Name: " + c.FirstName + " " +
+                    Console.WriteLine("     " + c.ToString().Replace("Birth_Clinic.Models.", "") + ", Name: " + c.FirstName + " " +
                                   c.LastName + ", ");
                 }
             }
