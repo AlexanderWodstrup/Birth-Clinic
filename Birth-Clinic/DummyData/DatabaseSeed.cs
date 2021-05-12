@@ -20,7 +20,7 @@ namespace Birth_Clinic.DummyData
     {
         public void AddFatherAndMother(AppDbContext context)
         {
-            
+
             var collection = context.context.GetCollection<Parent>("Parents");
             var rand = new Random();
 
@@ -196,127 +196,111 @@ namespace Birth_Clinic.DummyData
 
         public List<ClinicRoom> availableBirthRoom(DateTime DueDate, AppDbContext context)
         {
-            if (DueDate < DateTime.Now.AddHours(1))
+            IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
+
+            var birthroom = unitOfWork.Rooms.GetRoomsWithSchedule().Where(c => c is BirthRoom);
+
+            List<ClinicRoom> newBirtRooms = new List<ClinicRoom>();
+            var rand = new Random();
+            var count = 0;
+            foreach (var b in birthroom)
             {
-                IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
-
-                var birthroom = unitOfWork.Rooms.GetRoomsWithSchedule().Where(c => c is BirthRoom);
-
-                List<ClinicRoom> newBirtRooms = new List<ClinicRoom>();
-
-                var count = 0;
-                foreach (var b in birthroom)
+                //var v in b.Schedules.OrderByDescending(c => c.ScheduleId)
+                foreach (var v in b.Schedules)
                 {
-                    //var v in b.Schedules.OrderByDescending(c => c.ScheduleId)
-                    foreach (var v in b.Schedules)
+                    if (v.From < DueDate && v.To >= DueDate)
                     {
-
-                        if (v.From < DueDate && v.To >= DueDate)
-                        {
-                        }
-                        else if (count == 0)
-                        {
-                            count++;
-                            newBirtRooms.Add(b);
-                            var newSchedule = new Schedule()
-                            {
-                                From = DueDate.AddDays(-1000),
-                                To = DueDate.AddDays(1000),
-                            };
-                            b.Schedules.Add(newSchedule); //hmm?
-
-                        }
-
-                        break;
-
                     }
-
+                    else if (count == 0)
+                    {
+                        count++;
+                        newBirtRooms.Add(b);
+                        var newSchedule = new Schedule()
+                        {
+                            From = DueDate.AddHours(-1),
+                            To = DueDate.AddHours(rand.Next(2, 24)),
+                        };
+                        b.Schedules.Add(newSchedule);
+                    }
+                    break;
                 }
-
-
-                return newBirtRooms;
             }
-
-            return new List<ClinicRoom>();
+            return newBirtRooms;
         }
         public List<Clinician> availableClinicians(DateTime DueDate, AppDbContext context)
         {
-            if (DueDate < DateTime.Now.AddHours(1))
+
+
+            IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
+            var midwife = unitOfWork.Clinicians.GetCliniciansWorkingTimes().Where(c => c is MidWife).ToList();
+            var doctor = unitOfWork.Clinicians.GetCliniciansWorkingTimes().Where(c => c is Doctor).ToList();
+            var nurse = unitOfWork.Clinicians.GetCliniciansWorkingTimes().Where(c => c is Nurse).ToList();
+            var sosu = unitOfWork.Clinicians.GetCliniciansWorkingTimes().Where(c => c is SOSU_Assistent).ToList();
+
+            List<Clinician> newClinicians = new List<Clinician>();
+
+            var count = 0;
+            foreach (var m in midwife)
             {
-
-                IUnitOfWork unitOfWork = new UnitOfWork.UnitOfWork(context);
-                var midwife = unitOfWork.Clinicians.GetCliniciansWorkingTimes().Where(c => c is MidWife).ToList();
-                var doctor = unitOfWork.Clinicians.GetCliniciansWorkingTimes().Where(c => c is Doctor).ToList();
-                var nurse = unitOfWork.Clinicians.GetCliniciansWorkingTimes().Where(c => c is Nurse).ToList();
-                var sosu = unitOfWork.Clinicians.GetCliniciansWorkingTimes().Where(c => c is SOSU_Assistent).ToList();
-
-                List<Clinician> newClinicians = new List<Clinician>();
-
-                var count = 0;
-                foreach (var m in midwife)
+                foreach (var v in m.Schedules)
                 {
-                    foreach (var v in m.Schedules)
+                    if (v.From < DueDate && v.To >= DueDate && count == 0)
                     {
-                        if (v.From < DueDate && v.To >= DueDate && count == 0)
-                        {
-                            newClinicians.Add(m);
-                            count++;
-                        }
+                        newClinicians.Add(m);
+                        count++;
                     }
                 }
-
-                count = 0;
-                foreach (var m in doctor)
-                {
-
-                    foreach (var v in m.Schedules)
-                    {
-                        if (v.From < DueDate && v.To >= DueDate && count == 0)
-                        {
-                            newClinicians.Add(m);
-                            count++;
-                        }
-
-                    }
-                }
-
-                count = 0;
-                foreach (var m in nurse)
-                {
-
-                    foreach (var v in m.Schedules)
-                    {
-                        if (v.From < DueDate && v.To >= DueDate && count == 0)
-                        {
-                            newClinicians.Add(m);
-                            count++;
-                        }
-
-                    }
-                }
-
-                count = 0;
-                foreach (var m in sosu)
-                {
-
-                    foreach (var v in m.Schedules)
-                    {
-                        if (v.From < DueDate && v.To >= DueDate && count == 0)
-                        {
-                            newClinicians.Add(m);
-                            count++;
-                        }
-
-                    }
-                }
-
-                return newClinicians;
-
             }
 
-            return new List<Clinician>();
+            count = 0;
+            foreach (var m in doctor)
+            {
+
+                foreach (var v in m.Schedules)
+                {
+                    if (v.From < DueDate && v.To >= DueDate && count == 0)
+                    {
+                        newClinicians.Add(m);
+                        count++;
+                    }
+
+                }
+            }
+
+            count = 0;
+            foreach (var m in nurse)
+            {
+
+                foreach (var v in m.Schedules)
+                {
+                    if (v.From < DueDate && v.To >= DueDate && count == 0)
+                    {
+                        newClinicians.Add(m);
+                        count++;
+                    }
+
+                }
+            }
+
+            count = 0;
+            foreach (var m in sosu)
+            {
+
+                foreach (var v in m.Schedules)
+                {
+                    if (v.From < DueDate && v.To >= DueDate && count == 0)
+                    {
+                        newClinicians.Add(m);
+                        count++;
+                    }
+
+                }
+            }
+
+            return newClinicians;
 
         }
+
         public string randomLastName()
         {
             string[] LastName =
@@ -491,7 +475,7 @@ namespace Birth_Clinic.DummyData
         public bool WipeDatabase(AppDbContext db)
         {
             db.context.Client.DropDatabase("BirthClinicDb");
-            
+
             Console.WriteLine("Database cleared");
 
             return true;

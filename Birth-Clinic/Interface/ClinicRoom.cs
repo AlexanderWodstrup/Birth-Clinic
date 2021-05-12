@@ -13,7 +13,6 @@ namespace Birth_Clinic.Interface
         [BsonRepresentation(BsonType.ObjectId)]
         public string ClinicRoomId { get; set; }
         public List<Schedule> Schedules { get; set; }
-        public List<Parent> Parents { get; set; }
 
         public override string ToString()
         {
